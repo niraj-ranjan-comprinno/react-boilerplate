@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MousePointer2, Type, Grid3X3, Image, Layers, Layout,
   FileText, Palette, Space, Box, Search,
@@ -518,17 +518,31 @@ const STATS = [
 
 // ── Component card ────────────────────────────────────────────────────────
 
+/**
+ * Uses a div+onClick instead of <Link> because the preview area contains
+ * real interactive atoms (<Button>, <Input>, etc.).
+ * Nesting <button>/<input> inside <a> is invalid HTML — browsers move them
+ * outside the anchor, which breaks the card click entirely.
+ * pointer-events-none on the preview makes preview controls visual-only.
+ */
 function ComponentCard({ item }: { item: ComponentDoc }) {
+  const navigate = useNavigate();
+
   return (
-    <Link
-      to={item.href}
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={() => navigate(item.href)}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") navigate(item.href); }}
+      aria-label={`${item.name} — ${item.description}`}
       className={cn(
-        "group flex flex-col rounded-xl border border-border bg-card overflow-hidden",
-        "transition-all duration-200 hover:border-primary/40 hover:shadow-[0_4px_16px_rgba(76,203,191,0.08)]"
+        "group flex flex-col rounded-xl border border-border bg-card overflow-hidden cursor-pointer",
+        "transition-all duration-200 hover:border-primary/40 hover:shadow-[0_4px_16px_rgba(76,203,191,0.08)]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       )}
     >
-      {/* Preview area */}
-      <div className="flex items-center justify-center min-h-[100px] px-6 py-5 bg-muted/30 border-b border-border">
+      {/* Preview area — pointer-events-none so interactive atoms are visual-only */}
+      <div className="flex items-center justify-center min-h-[100px] px-6 py-5 bg-muted/30 border-b border-border pointer-events-none select-none">
         {item.preview}
       </div>
 
@@ -548,7 +562,7 @@ function ComponentCard({ item }: { item: ComponentDoc }) {
           {item.description}
         </p>
       </div>
-    </Link>
+    </div>
   );
 }
 
