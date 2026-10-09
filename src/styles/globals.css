@@ -1,0 +1,346 @@
+@import "tailwindcss";
+
+/*
+ * Class-based dark mode — toggled by adding `.dark` to <html>.
+ * localStorage key "theme" = "dark" | "light" | "system"
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * @theme inline — Tailwind v4.
+ * Each --color-* maps to a CSS variable reference so Tailwind utilities
+ * (bg-background, text-foreground, …) resolve at runtime via CSS variables,
+ * enabling instant theme switching without recompilation.
+ *
+ * Values are sourced from the shadcn-Tevico Figma design system
+ * (https://www.figma.com/design/ifYt0HikaAuhwRTtARu5Fq/)
+ * confirmed via get_design_context on component instances (Button, Input, Card).
+ */
+@theme inline {
+  /* ── Semantic tokens (shadcn/ui compatible) ─────────────────────────── */
+  --color-background:            var(--background);
+  --color-foreground:            var(--foreground);
+  --color-card:                  var(--card);
+  --color-card-foreground:       var(--card-foreground);
+  --color-popover:               var(--popover);
+  --color-popover-foreground:    var(--popover-foreground);
+  --color-primary:               var(--primary);
+  --color-primary-foreground:    var(--primary-foreground);
+  --color-secondary:             var(--secondary);
+  --color-secondary-foreground:  var(--secondary-foreground);
+  --color-muted:                 var(--muted);
+  --color-muted-foreground:      var(--muted-foreground);
+  --color-accent:                var(--accent);
+  --color-accent-foreground:     var(--accent-foreground);
+  --color-destructive:           var(--destructive);
+  --color-destructive-foreground:var(--destructive-foreground);
+  --color-border:                var(--border);
+  --color-input:                 var(--input);
+  --color-ring:                  var(--ring);
+
+  /* ── Primary-ink (darker teal for links — aligned with command-center) ── */
+  --color-primary-ink: var(--primary-ink);
+
+  /* ── Severity scale (aligned with command-center-main) ─────────────── */
+  --color-critical:               var(--critical);
+  --color-critical-foreground:    var(--critical-foreground);
+  --color-critical-soft:          var(--critical-soft);
+  --color-high:                   var(--high);
+  --color-high-foreground:        var(--high-foreground);
+  --color-high-soft:              var(--high-soft);
+  --color-medium:                 var(--medium);
+  --color-medium-foreground:      var(--medium-foreground);
+  --color-medium-soft:            var(--medium-soft);
+  --color-low:                    var(--low);
+  --color-low-foreground:         var(--low-foreground);
+  --color-low-soft:               var(--low-soft);
+  --color-agent:                  var(--agent);
+  --color-agent-foreground:       var(--agent-foreground);
+  --color-agent-soft:             var(--agent-soft);
+  --color-takeover:               var(--takeover);
+  --color-takeover-foreground:    var(--takeover-foreground);
+  --color-takeover-soft:          var(--takeover-soft);
+  --color-info:                   var(--info);
+  --color-info-foreground:        var(--info-foreground);
+  --color-info-soft:              var(--info-soft);
+
+  /* ── Figma: Teal primary scale ──────────────────────────────────────── */
+  --color-primary-50:  #edfaf9;
+  --color-primary-100: #d0f4f1;
+  --color-primary-200: #a3e9e4;
+  --color-primary-300: #6dd9d2;
+  --color-primary-400: #4ccbbf;   /* brand primary */
+  --color-primary-500: #31b0a5;
+  --color-primary-600: #268d84;
+  --color-primary-700: #1e6e68;
+  --color-primary-800: #175250;
+  --color-primary-900: #103c3a;
+
+  /* ── Sidebar tokens (always-dark surface) ───────────────────────────── */
+  --color-sidebar:        #18181b;   /* zinc-950 — matches dark card in dark mode */
+  --color-sidebar-hover:  #27272a;
+  --color-sidebar-active: #3f3f46;
+  --color-sidebar-border: #27272a;
+
+  /* ── Status colors ──────────────────────────────────────────────────── */
+  --color-success:       #22c55e;   /* green-500 */
+  --color-success-light: #dcfce7;
+  --color-warning:       #f59e0b;   /* amber-500 — from Figma theming doc */
+  --color-warning-light: #fef3c7;
+  --color-danger:        #ef4444;   /* red-500  = shadcn/ui destructive */
+  --color-danger-light:  #fee2e2;
+  --color-info:          #3b82f6;   /* blue-500 */
+  --color-info-light:    #dbeafe;
+
+  /* ── Font ───────────────────────────────────────────────────────────── */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+
+  /* ── Radius (from Figma: rounded-md=8px, rounded-xl=12px) ──────────── */
+  --radius-sm:   0.25rem;   /* 4px  */
+  --radius-md:   0.5rem;    /* 8px  — Figma: border-radius/rounded-md */
+  --radius-lg:   0.5rem;    /* 8px  — Figma: border-radius/rounded-lg */
+  --radius-xl:   0.75rem;   /* 12px — Figma: border-radius/rounded-xl  */
+  --radius-2xl:  1rem;      /* 16px */
+  --radius-full: 9999px;
+
+  /* ── Shadows (from Figma: shadow/sm and shadow/xs) ──────────────────── */
+  --shadow-card:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);   /* Figma: shadow/sm */
+  --shadow-input:
+    0 1px 2px rgba(0, 0, 0, 0.05);        /* Figma: shadow/xs */
+  --shadow-elevated:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * Light mode
+ * Source: get_design_context fallback values on Button, Input, Card nodes
+ * (file: ifYt0HikaAuhwRTtARu5Fq, Theme Preview → Light playground)
+ * Aligned with command-center-main: severity scale + primary-ink added.
+ * ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --background:             #fafafa;   /* zinc-50  */
+  --foreground:             #27272a;   /* zinc-900 */
+  --card:                   #ffffff;
+  --card-foreground:        #27272a;
+  --popover:                #ffffff;
+  --popover-foreground:     #27272a;
+  --primary:                #4ccbbf;   /* teal — from Figma copy */
+  --primary-foreground:     #042f2e;   /* dark teal — confirmed from Button node */
+  --primary-ink:            #0e7b73;   /* darker teal for links — aligned with CC */
+  --secondary:              #f4f4f5;   /* zinc-100 */
+  --secondary-foreground:   #18181b;   /* zinc-950 */
+  --muted:                  #f4f4f5;   /* zinc-100 */
+  --muted-foreground:       #52525b;   /* zinc-600 */
+  --accent:                 #f4f4f5;   /* zinc-100 */
+  --accent-foreground:      #18181b;
+  --destructive:            #ef4444;   /* red-500  */
+  --destructive-foreground: #fafafa;
+  --border:                 #e4e4e7;   /* zinc-200 */
+  --input:                  #e4e4e7;
+  --ring:                   #4ccbbf;
+  --radius:                 0.625rem;  /* 10px — aligned with command-center-main */
+
+  /* ── Severity scale (aligned with command-center-main) ─────────────── */
+  --critical:               #dc2626;   /* red-600    */
+  --critical-foreground:    #ffffff;
+  --critical-soft:          #fef2f2;   /* red-50     */
+  --high:                   #c2410c;   /* orange-700 */
+  --high-foreground:        #431407;
+  --high-soft:              #fff7ed;   /* orange-50  */
+  --medium:                 #52525b;   /* zinc-600   */
+  --medium-foreground:      #3f3f46;
+  --medium-soft:            #f4f4f5;
+  --low:                    #52525b;
+  --low-foreground:         #3f3f46;
+  --low-soft:               #f4f4f5;
+  --success:                #15803d;   /* green-700  */
+  --success-foreground:     #ffffff;
+  --success-soft:           #f0fdf4;   /* green-50   */
+  --agent:                  #6d28d9;   /* violet-700 */
+  --agent-foreground:       #ffffff;
+  --agent-soft:             #f5f3ff;   /* violet-50  */
+  --takeover:               #9333ea;   /* purple-600 */
+  --takeover-foreground:    #ffffff;
+  --takeover-soft:          #faf5ff;   /* purple-50  */
+  --info:                   #0369a1;   /* sky-700    */
+  --info-foreground:        #ffffff;
+  --info-soft:              #f0f9ff;   /* sky-50     */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * Dark mode
+ * Standard shadcn/ui zinc-950 dark palette + teal primary + severity scale.
+ * ───────────────────────────────────────────────────────────────────────── */
+.dark {
+  --background:             #09090b;   /* zinc-950 */
+  --foreground:             #fafafa;   /* zinc-50  */
+  --card:                   #0f0f11;   /* slightly lifted */
+  --card-foreground:        #fafafa;
+  --popover:                #0f0f11;
+  --popover-foreground:     #fafafa;
+  --primary:                #4ccbbf;
+  --primary-foreground:     #042f2e;
+  --primary-ink:            #4ccbbf;   /* same teal in dark — already bright */
+  --secondary:              #27272a;
+  --secondary-foreground:   #fafafa;
+  --muted:                  #27272a;
+  --muted-foreground:       #a1a1aa;   /* zinc-400 */
+  --accent:                 #27272a;
+  --accent-foreground:      #fafafa;
+  --destructive:            #ef4444;
+  --destructive-foreground: #fafafa;
+  --border:                 #27272a;
+  --input:                  #3f3f46;   /* zinc-700 — slightly lifted for dark inputs */
+  --ring:                   #4ccbbf;
+
+  /* ── Severity scale dark ───────────────────────────────────────────── */
+  --critical:               #f87171;   /* red-400    */
+  --critical-foreground:    #450a0a;
+  --critical-soft:          #450a0a;
+  --high:                   #fb923c;   /* orange-400 */
+  --high-foreground:        #431407;
+  --high-soft:              #431407;
+  --medium:                 #a1a1aa;   /* zinc-400   */
+  --medium-foreground:      #fafafa;
+  --medium-soft:            #27272a;
+  --low:                    #a1a1aa;
+  --low-foreground:         #e4e4e7;
+  --low-soft:               #27272a;
+  --success:                #4ade80;   /* green-400  */
+  --success-foreground:     #052e16;
+  --success-soft:           #052e16;
+  --agent:                  #a78bfa;   /* violet-400 */
+  --agent-foreground:       #2e1065;
+  --agent-soft:             #2e1065;
+  --takeover:               #c084fc;   /* purple-400 */
+  --takeover-foreground:    #3b0764;
+  --takeover-soft:          #3b0764;
+  --info:                   #38bdf8;   /* sky-400    */
+  --info-foreground:        #082f49;
+  --info-soft:              #082f49;
+}
+
+/* ── Base styles ────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ── Sidebar scrollbar ──────────────────────────────────────────────────── */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar { width: 4px; }
+.sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #4ccbbf;
+}
+
+/* ── Sphere animations ──────────────────────────────────────────────────── */
+/* Ported from command-center-main tailwind.config.js keyframes */
+
+@keyframes sphere-breathe {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.025); }
+}
+@keyframes sphere-listen {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.07); }
+}
+@keyframes sphere-speak {
+  0%, 100% { transform: scale(1); }
+  33%       { transform: scale(1.04); }
+  66%       { transform: scale(0.97); }
+}
+@keyframes sphere-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes sphere-rotate-reverse {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+@keyframes waveform-bar {
+  0%, 100% { transform: scaleY(0.2); }
+  50%       { transform: scaleY(1); }
+}
+
+/* Utility classes — Tailwind v4 @theme can't express arbitrary-delay animations,
+   so we define them as plain CSS utilities instead. */
+.animate-sphere-breathe        { animation: sphere-breathe        4s   ease-in-out infinite; }
+.animate-sphere-listen         { animation: sphere-listen         0.75s ease-in-out infinite; }
+.animate-sphere-speak          { animation: sphere-speak          1.4s  ease-in-out infinite; }
+.animate-sphere-rotate         { animation: sphere-rotate         20s  linear     infinite; }
+.animate-sphere-rotate-reverse { animation: sphere-rotate-reverse 16s  linear     infinite; }
+.animate-waveform-bar          { animation: waveform-bar          0.6s  ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sphere-breathe,
+  .animate-sphere-listen,
+  .animate-sphere-speak  { animation: none; transform: scale(1); }
+  .animate-waveform-bar  { animation: none; transform: scaleY(0.2); }
+}
+
+/* ── Accordion animations ──────────────────────────────────────────────── */
+@keyframes accordion-down {
+  from { height: 0; }
+  to   { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to   { height: 0; }
+}
+.animate-accordion-down { animation: accordion-down 0.2s ease-out; }
+.animate-accordion-up   { animation: accordion-up   0.2s ease-out; }
+
+/* ── Radix animation helpers ──────────────────────────────────────────── */
+/* Fade / zoom used by Dialog, Popover, Tooltip, DropdownMenu */
+@keyframes fade-in-0   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-out-0  { from { opacity: 1; } to { opacity: 0; } }
+@keyframes zoom-in-95  { from { transform: scale(0.95); } to { transform: scale(1); } }
+@keyframes zoom-out-95 { from { transform: scale(1); }   to { transform: scale(0.95); } }
+@keyframes slide-in-from-top-2    { from { transform: translateY(-8px); } to { transform: translateY(0); } }
+@keyframes slide-in-from-bottom-2 { from { transform: translateY(8px);  } to { transform: translateY(0); } }
+@keyframes slide-in-from-left-2   { from { transform: translateX(-8px); } to { transform: translateX(0); } }
+@keyframes slide-in-from-right-2  { from { transform: translateX(8px);  } to { transform: translateX(0); } }
+@keyframes slide-out-to-top-48pct    { from { transform: translate(-50%, -48%); } to { transform: translate(-50%, -50%); } }
+@keyframes slide-in-from-top-48pct   { from { transform: translate(-50%, -48%); } to { transform: translate(-50%, -50%); } }
+
+.animate-in  { animation-fill-mode: both; }
+.animate-out { animation-fill-mode: both; }
+
+.fade-in-0         { animation-name: fade-in-0;            animation-duration: 0.15s; }
+.fade-out-0        { animation-name: fade-out-0;           animation-duration: 0.15s; }
+.zoom-in-95        { animation-name: zoom-in-95;           animation-duration: 0.15s; }
+.zoom-out-95       { animation-name: zoom-out-95;          animation-duration: 0.15s; }
+.slide-in-from-top-2    { animation-name: slide-in-from-top-2;    animation-duration: 0.15s; }
+.slide-in-from-bottom-2 { animation-name: slide-in-from-bottom-2; animation-duration: 0.15s; }
+.slide-in-from-left-2   { animation-name: slide-in-from-left-2;   animation-duration: 0.15s; }
+.slide-in-from-right-2  { animation-name: slide-in-from-right-2;  animation-duration: 0.15s; }
+.slide-in-from-left-1\/2  { animation-name: slide-in-from-left-2;  animation-duration: 0.2s; }
+.slide-out-to-left-1\/2   { animation-name: slide-in-from-left-2;  animation-duration: 0.2s; animation-direction: reverse; }
+.slide-in-from-top-\[48\%\]   { animation-name: slide-in-from-top-48pct;  animation-duration: 0.2s; }
+.slide-out-to-top-\[48\%\]    { animation-name: slide-out-to-top-48pct;   animation-duration: 0.2s; }
