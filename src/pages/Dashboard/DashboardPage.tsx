@@ -2,13 +2,15 @@
  * Dashboard page — pixel-matched to command-center-main's dark dashboard
  * (Figma: shadcn-Tevico, Theme Preview → Dark playground).
  *
- * Layout:
- *   Three-column responsive grid (matching the screenshot):
- *     Col 1 (1/3): Revenue card, Subscription card, Upgrade form, Team Members, Cookie Settings
- *     Col 2 (1/3): Calendar, Create account form, Chat, Report issue form
- *     Col 3 (1/3): Move Goal, Exercise chart, Payments table, Share document
+ * Forms in this page:
+ *  - "Upgrade subscription" & "Create account": demo/visual cards (CC faithful reproduction)
+ *    — they are intentionally NOT validated since they're display components, not real forms.
+ *    See src/pages/FormExamples/ for full useZodForm validation examples.
+ *  - "Report an issue": interactive form, uses useZodForm + Zod schema.
  */
 import { useState } from "react";
+import { z } from "zod";
+import { useZodForm } from "@/hooks/use-zod-form";
 import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
 import { Badge } from "@/components/atoms/badge";
 import { Button } from "@/components/atoms/button";
@@ -115,6 +117,16 @@ function MiniBarChart({ data, color = "#4ccbbf" }: { data: number[]; color?: str
   );
 }
 
+// ── Report issue schema ───────────────────────────────────────────────────
+
+const reportSchema = z.object({
+  area:        z.string().min(1, "Please select an area."),
+  severity:    z.string().min(1, "Please select a severity."),
+  subject:     z.string().min(3, "Subject must be at least 3 characters."),
+  description: z.string().min(10, "Please describe the issue in detail."),
+});
+type ReportValues = z.infer<typeof reportSchema>;
+
 // ── Card shell ────────────────────────────────────────────────────────────
 
 function DCard({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -141,7 +153,17 @@ export function DashboardPage() {
   const [selectedPayments, setSelectedPayments] = useState<Set<string>>(new Set());
   const [strictCookies, setStrictCookies] = useState(true);
   const [funcCookies, setFuncCookies] = useState(false);
-  const [reportArea, setReportArea] = useState("");
+
+  // Report issue form — uses useZodForm (interactive form, not a demo card)
+  const reportForm = useZodForm(reportSchema, {
+    defaultValues: { area: "", severity: "", subject: "", description: "" },
+  });
+
+  function handleReport(values: ReportValues) {
+    // In production: call an API endpoint here
+    console.info("Report submitted:", values);
+    reportForm.reset();
+  }
 
   const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const calGrid = calendarGrid(calYear, calMonth);
@@ -452,28 +474,51 @@ export function DashboardPage() {
             </form>
           </DCard>
 
-          {/* Report an issue */}
+          {/* Report an issue — useZodForm wired */}
           <DCard className="p-5 space-y-3">
             <div>
               <p className="text-sm font-semibold text-foreground">Report an issue</p>
               <p className="text-xs text-muted-foreground mt-0.5">What area are you having problems with?</p>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <SelectField label="Area" options={[{ value: "billing", label: "Billing" }, { value: "tech", label: "Technical" }]} value={reportArea} onChange={(e) => setReportArea(e.target.value)} className="h-8 text-xs" />
-              <SelectField label="Security Level" options={[{ value: "2", label: "Severity 2" }, { value: "1", label: "Severity 1" }]} className="h-8 text-xs" onChange={() => undefined} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-foreground">Subject</label>
-              <Input placeholder="I need help with..." className="h-8 text-xs" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-foreground">Description</label>
-              <textarea className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring min-h-[72px] resize-none" placeholder="Please include all information relevant to your issue." />
-            </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="ghost" size="sm" className="h-8 text-xs">Cancel</Button>
-              <Button variant="primary" size="sm" className="h-8 text-xs">Submit</Button>
-            </div>
+            <form onSubmit={reportForm.handleSubmit(handleReport)} noValidate className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <SelectField label="Area"
+                  options={[{ value: "billing", label: "Billing" }, { value: "tech", label: "Technical" }, { value: "access", label: "Access" }]}
+                  {...reportForm.register("area")}
+                  error={reportForm.formState.errors.area?.message}
+                  className="h-8 text-xs" />
+                <SelectField label="Security Level"
+                  options={[{ value: "2", label: "Severity 2" }, { value: "1", label: "Severity 1" }, { value: "3", label: "Severity 3" }]}
+                  {...reportForm.register("severity")}
+                  error={reportForm.formState.errors.severity?.message}
+                  className="h-8 text-xs" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-foreground">Subject</label>
+                <Input placeholder="I need help with..." className="h-8 text-xs"
+                  {...reportForm.register("subject")}
+                  aria-invalid={Boolean(reportForm.formState.errors.subject)} />
+                {reportForm.formState.errors.subject && (
+                  <p role="alert" className="text-[10px] text-destructive">{reportForm.formState.errors.subject.message}</p>
+                )}
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-foreground">Description</label>
+                <textarea
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring min-h-[60px] resize-none"
+                  placeholder="Please include all information relevant to your issue."
+                  {...reportForm.register("description")}
+                  aria-invalid={Boolean(reportForm.formState.errors.description)}
+                />
+                {reportForm.formState.errors.description && (
+                  <p role="alert" className="text-[10px] text-destructive">{reportForm.formState.errors.description.message}</p>
+                )}
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="ghost" size="sm" className="h-8 text-xs" onClick={() => reportForm.reset()}>Cancel</Button>
+                <Button type="submit" variant="primary" size="sm" className="h-8 text-xs" isLoading={reportForm.formState.isSubmitting}>Submit</Button>
+              </div>
+            </form>
           </DCard>
         </div>
 

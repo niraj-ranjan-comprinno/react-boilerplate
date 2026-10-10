@@ -6,6 +6,8 @@ import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/input";
 import { GoogleIcon, GitHubIcon } from "@/assets/SocialIcons";
 import { authService } from "@/services/auth.service";
+import { useZodForm } from "@/hooks/use-zod-form";
+import { loginSchema, type LoginFormValues } from "@/lib/schemas";
 import { routes } from "@/app/router/routes";
 import { cn } from "@/lib/utils";
 import type { SphereState } from "@/components/atoms/sphere";
@@ -29,12 +31,18 @@ export function IdpPhase() {
   const [exiting, setExiting] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [view, setView] = useState<View>("signin");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [signInError, setSignInError] = useState("");
   const [sphereState, setSphereState] = useState<SphereState>("ambient");
+
+  // useZodForm — validates email format and password presence before submit
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useZodForm(loginSchema, { defaultValues: { email: "", password: "" } });
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 200);
@@ -64,17 +72,14 @@ export function IdpPhase() {
     succeed("larysa@eleken.co");
   }
 
-  async function handleEmailSignIn(e: React.FormEvent) {
-    e.preventDefault();
-    if (loading || !email.trim() || !password) return;
+  async function handleEmailSignIn(values: LoginFormValues) {
     setSignInError("");
     setLoading("email");
     setSphereState("processing");
     try {
-      // This persists the user to localStorage
-      await authService.login({ email: email.trim(), password });
+      await authService.login({ email: values.email.trim(), password: values.password });
       setSphereState("speaking");
-      succeed(email.trim());
+      succeed(values.email.trim());
     } catch (err) {
       setSphereState("alert");
       setSignInError(
@@ -163,7 +168,7 @@ export function IdpPhase() {
               </div>
 
               <form
-                onSubmit={handleEmailSignIn}
+                onSubmit={handleSubmit(handleEmailSignIn)}
                 className="flex flex-col gap-4"
                 noValidate
                 aria-label="Sign in"
@@ -186,10 +191,13 @@ export function IdpPhase() {
                     type="email"
                     autoComplete="email"
                     placeholder="alex@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     disabled={anyLoading}
+                    aria-invalid={Boolean(errors.email)}
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <p role="alert" className="text-xs text-destructive">{errors.email.message}</p>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
@@ -202,10 +210,10 @@ export function IdpPhase() {
                       type={showPassword ? "text" : "password"}
                       autoComplete="current-password"
                       placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
                       disabled={anyLoading}
                       className="pr-9"
+                      aria-invalid={Boolean(errors.password)}
+                      {...register("password")}
                     />
                     <button
                       type="button"
@@ -217,9 +225,12 @@ export function IdpPhase() {
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
+                  {errors.password && (
+                    <p role="alert" className="text-xs text-destructive">{errors.password.message}</p>
+                  )}
                   <button
                     type="button"
-                    onClick={() => { setResetEmail(email); setView("forgot"); }}
+                    onClick={() => { setResetEmail(getValues("email")); setView("forgot"); }}
                     className="self-end text-sm text-primary-ink hover:underline transition-colors"
                   >
                     Forgot password?
@@ -231,7 +242,7 @@ export function IdpPhase() {
                   variant="primary"
                   size="md"
                   className="w-full"
-                  disabled={anyLoading || !email.trim() || !password}
+                  disabled={anyLoading}
                   isLoading={loading === "email"}
                 >
                   Sign in

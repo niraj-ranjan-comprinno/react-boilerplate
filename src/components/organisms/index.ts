@@ -1,5 +1,6 @@
-export { AppHeader } from "./AppHeader";
-export type { AppHeaderProps } from "./AppHeader";
+// AppHeader was deprecated — see src/components/organisms/AppHeader/index.ts for details.
+// export { AppHeader } from "./AppHeader";
+// export type { AppHeaderProps } from "./AppHeader";
 
 export { Sidebar } from "./Sidebar";
 export type { SidebarProps, NavItem, PageLink, SubItem, SubGroup, UserInfo } from "./Sidebar";

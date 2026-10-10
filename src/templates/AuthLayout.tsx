@@ -28,10 +28,10 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       >
         <div className="max-w-xs text-center">
           <Logo className="mx-auto" />
-          <h2 className="mt-6 text-2xl font-bold text-[#fafafa]">
+          <h2 className="mt-6 text-2xl font-bold text-foreground">
             Build faster with a solid foundation
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-[#71717a]">
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             React + TypeScript + shadcn/ui boilerplate with Atomic Design,
             Tailwind v4, and production-ready patterns baked in.
           </p>
@@ -48,7 +48,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
           ].map((label) => (
             <span
               key={label}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-[#a1a1aa]"
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-muted-foreground"
             >
               {label}
             </span>

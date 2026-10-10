@@ -1,5 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { Button } from "./button";
+import { env } from "@/lib/env";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -66,8 +67,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             An unexpected error occurred. If this keeps happening, please
             contact support.
           </p>
-          {/* Show error message only in development */}
-          {import.meta.env.DEV && (
+          {/* Show error message only in development — uses env.isDev (not import.meta.env directly) */}
+          {env.isDev && (
             <pre className="max-w-full overflow-auto rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-left text-xs text-destructive">
               {error.message}
             </pre>

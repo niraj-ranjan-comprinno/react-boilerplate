@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 interface LogoProps {
   className?: string;
   collapsed?: boolean;
@@ -5,13 +7,18 @@ interface LogoProps {
 
 /**
  * Application logo.
+ * Uses semantic design tokens — no hardcoded hex.
  * Renders a teal wordmark in expanded mode and a monogram in collapsed mode.
  */
-export function Logo({ className = "", collapsed = false }: LogoProps) {
+export function Logo({ className, collapsed = false }: LogoProps) {
   if (collapsed) {
     return (
       <div
-        className={`flex h-8 w-8 items-center justify-center rounded-lg bg-[#4CCBBF] font-bold text-white text-sm ${className}`}
+        className={cn(
+          "flex h-8 w-8 items-center justify-center rounded-lg",
+          "bg-primary font-bold text-primary-foreground text-sm",
+          className
+        )}
       >
         R
       </div>
@@ -19,12 +26,17 @@ export function Logo({ className = "", collapsed = false }: LogoProps) {
   }
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#4CCBBF] font-bold text-white text-sm">
+    <div className={cn("flex items-center gap-2", className)}>
+      <div
+        className={cn(
+          "flex h-8 w-8 items-center justify-center rounded-lg",
+          "bg-primary font-bold text-primary-foreground text-sm"
+        )}
+      >
         R
       </div>
-      <span className="text-[15px] font-bold text-[#E2E8F0]">
-        React<span className="text-[#4CCBBF]">UI</span>
+      <span className="text-[15px] font-bold text-foreground">
+        React<span className="text-primary">UI</span>
       </span>
     </div>
   );
