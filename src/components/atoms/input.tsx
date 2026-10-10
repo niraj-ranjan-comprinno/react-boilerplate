@@ -10,11 +10,11 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 /**
- * Input atom — styled to Figma spec:
- *  - Height: h-9 = 36px  (confirmed: height/h-9)
- *  - Padding X: px-3 = 12px  (confirmed: spacing/3)
- *  - Border: 1px var(--input) = #e4e4e7 light / #27272a dark
- *  - Border radius: rounded-md = 8px  (confirmed: border-radius/rounded-md)
+ * Input atom — styled to the shared control specification:
+ *  - Height: h-9 = 36px
+ *  - Padding X: px-3 = 12px
+ *  - Border: 1px var(--input) = #8a8a8a light / #66666a dark
+ *  - Border radius: rounded-md = 8px
  *  - Shadow: shadow/xs = 0 1px 2px rgba(0,0,0,0.05)
  *  - Font: text-sm regular, var(--foreground)
  */

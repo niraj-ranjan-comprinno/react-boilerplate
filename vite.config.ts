@@ -3,13 +3,16 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
+const allowedHosts = process.env.DEV_SERVER_ALLOWED_HOSTS
+  ?.split(",")
+  .map((host) => host.trim())
+  .filter(Boolean);
+
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // Required while the Vorflux public preview is active. Vite otherwise
-  // rejects requests arriving through the preview proxy host.
   server: {
-    host: "0.0.0.0",
-    allowedHosts: true,
+    host: process.env.DEV_SERVER_HOST ?? "127.0.0.1",
+    allowedHosts,
   },
   resolve: {
     alias: {
