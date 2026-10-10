@@ -147,11 +147,11 @@
   --ring:                   #4ccbbf;
   --radius:                 0.625rem;  /* 10px — aligned with command-center-main */
 
-  /* ── Sidebar (light mode = white card, like Vorflux) ───────────────── */
-  --sidebar:                #ffffff;
-  --sidebar-hover:          #f4f4f5;   /* zinc-100 */
-  --sidebar-active:         #e4e4e7;   /* zinc-200 */
-  --sidebar-border:         #e4e4e7;
+  /* ── Sidebar (light mode = very slight gray like Vorflux, dark = zinc-950) ── */
+  --sidebar:                #f8fafc;   /* slate-50 — Vorflux's off-white sidebar */
+  --sidebar-hover:          #f1f5f9;   /* slate-100 */
+  --sidebar-active:         #e2e8f0;   /* slate-200 */
+  --sidebar-border:         #e2e8f0;   /* slate-200 */
 
   /* ── Severity scale (aligned with command-center-main) ─────────────── */
   --critical:               #dc2626;   /* red-600    */

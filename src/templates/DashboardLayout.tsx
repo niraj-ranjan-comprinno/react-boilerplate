@@ -19,8 +19,8 @@ import {
   Blocks,
   WandSparkles,
   BookOpen,
-  ChevronRight,
-  ChevronLeft,
+  PanelLeftOpen,
+  PanelLeftClose,
   Moon,
   Sun,
   LogOut,
@@ -70,7 +70,7 @@ const NAV_ITEMS = [
   },
   {
     href: routes.components,
-    label: "Component Showcase",
+    label: "Components",
     icon: <Blocks className="h-[18px] w-[18px]" aria-hidden="true" />,
   },
   {
@@ -80,30 +80,12 @@ const NAV_ITEMS = [
   },
 ];
 
-const PAGE_LINKS_AFTER = [
+// Settings separate so it renders after a divider at the bottom nav
+const BOTTOM_ITEMS = [
   {
     href: routes.settings,
     label: "Settings",
     icon: <Settings className="h-[18px] w-[18px]" aria-hidden="true" />,
-  },
-];
-
-const COMPONENT_GROUPS = [
-  {
-    heading: "Core",
-    items: [
-      { id: "buttons",  label: "Buttons",  href: `${routes.components}#button`  },
-      { id: "inputs",   label: "Inputs",   href: `${routes.components}#input`   },
-      { id: "badges",   label: "Badges",   href: `${routes.components}#badge`   },
-    ],
-  },
-  {
-    heading: "Display",
-    items: [
-      { id: "cards",    label: "Cards",    href: `${routes.components}#card`    },
-      { id: "avatars",  label: "Avatars",  href: `${routes.components}#avatar`  },
-      { id: "skeleton", label: "Skeleton", href: `${routes.components}#skeleton`},
-    ],
   },
 ];
 
@@ -229,12 +211,9 @@ export function DashboardLayout() {
        */}
       <div
         className={cn(
-          // Mobile: fixed drawer
-          "fixed inset-y-0 left-0 z-30",
-          // Desktop: static in flex row
-          "lg:relative lg:z-auto lg:inset-auto",
-          // Width transition — matches Vorflux smooth slide
-          "transition-[width] duration-300 ease-in-out",
+          "relative flex h-full flex-col border-r border-border bg-sidebar transition-[width] duration-300 ease-in-out z-30",
+          // Mobile: fixed drawer; desktop: static in flex row
+          "fixed inset-y-0 left-0 lg:relative lg:z-auto lg:inset-auto",
           collapsed
             ? "w-[60px]"
             : "w-[240px]",
@@ -253,10 +232,9 @@ export function DashboardLayout() {
           logoCollapsed={<Logo collapsed />}
           homeHref={routes.dashboard}
           navItems={NAV_ITEMS}
-          pageLinksAfter={PAGE_LINKS_AFTER}
-          componentGroups={COMPONENT_GROUPS}
-          componentsIcon={<Blocks className="h-[18px] w-[18px]" aria-hidden="true" />}
-          componentsHref={routes.components}
+          pageLinksAfter={BOTTOM_ITEMS}
+          navLabel=""
+          pagesLabel=""
           user={
             user
               ? { name: user.name, role: user.role, avatarUrl: user.avatarUrl }
@@ -265,36 +243,33 @@ export function DashboardLayout() {
           userAction={<UserMenu />}
         />
 
-        {/* ── Floating toggle button ──────────────────────────────────
+        {/* ── Toggle button — Vorflux [|>] / [<|] style ──────────────
          *
-         * Sticks 12 px out of the sidebar's right edge.
-         * Matches Vorflux screenshots:
-         *   - Small circular/pill button
-         *   - On hover: blue/accent ring + bg
-         *   - Shows expand/collapse arrow
+         * screenshot 2: hover = blue/primary fill + icon turns white
+         * Uses PanelLeftOpen / PanelLeftClose icons (exact Vorflux icon)
+         * Rounded square (rounded-md), not circle — matches Vorflux shape
          */}
         <button
           type="button"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           onClick={() => setCollapsed((v) => !v)}
           className={cn(
-            // Positioning — float out of sidebar's right edge
-            "absolute -right-3 top-6 z-50",
-            // Shape
-            "flex h-6 w-6 items-center justify-center rounded-full",
-            // Colours — border visible in both light and dark
-            "border border-border bg-background text-muted-foreground shadow-sm",
-            // Hover state — teal highlight (like Vorflux blue [|>] on hover)
+            // Float out of the sidebar's right edge
+            "absolute -right-3.5 top-5 z-50",
+            // Shape — rounded square like Vorflux, not circle
+            "flex h-7 w-7 items-center justify-center rounded-md",
+            // Default: matches sidebar bg with a border
+            "border border-border bg-sidebar text-muted-foreground shadow-sm",
+            // Hover — Vorflux blue/primary fill (screenshot 2)
             "transition-all duration-150",
-            "hover:border-primary hover:bg-primary hover:text-primary-foreground",
-            "hover:shadow-[0_0_0_3px_hsl(174_55%_55%/0.25)]",
+            "hover:bg-primary hover:border-primary hover:text-primary-foreground",
             // Focus
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
           )}
         >
           {collapsed
-            ? <ChevronRight className="h-3 w-3" aria-hidden="true" />
-            : <ChevronLeft  className="h-3 w-3" aria-hidden="true" />
+            ? <PanelLeftOpen  className="h-3.5 w-3.5" aria-hidden="true" />
+            : <PanelLeftClose className="h-3.5 w-3.5" aria-hidden="true" />
           }
         </button>
       </div>

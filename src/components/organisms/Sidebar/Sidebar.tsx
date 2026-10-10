@@ -100,22 +100,23 @@ export function Sidebar({
     setOpenSubGroups((prev) => ({ ...prev, [heading]: !prev[heading] }));
   }
 
-  // Expanded link — semantic tokens, theme-aware hover
+  // Expanded link — Vorflux style: more padding, subtle active bg
   const linkCls = ({ isActive }: { isActive: boolean }) =>
     cn(
-      "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] transition-colors w-full",
+      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors w-full",
       isActive
-        ? "bg-primary/15 text-primary font-medium"
-        : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
+        ? "bg-primary/10 text-primary"
+        : "text-foreground/70 hover:bg-sidebar-hover hover:text-foreground"
     );
 
   // Icon-only link — left-edge active bar (CC NavRail pattern)
   const iconLinkCls = (active: boolean) =>
     cn(
-      "relative flex items-center justify-center rounded-lg p-2 transition-colors w-full",
+      // 40×40 touch target, centered icon, rounded square bg
+      "relative flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-150",
       active
-        ? "bg-primary/15 text-primary"
-        : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
+        ? "bg-primary/10 text-primary"
+        : "text-foreground/60 hover:bg-sidebar-hover hover:text-foreground"
     );
 
   // Section label — muted-foreground instead of hardcoded slate
@@ -146,10 +147,10 @@ export function Sidebar({
           </NavLink>
         </div>
 
-        {/* Nav */}
+        {/* Nav — more vertical breathing room like Vorflux */}
         <nav
           className={cn(
-            "flex-1 py-4 space-y-5 sidebar-scroll",
+            "flex-1 py-3 space-y-0.5 sidebar-scroll",
             collapsed
               ? "px-2 overflow-visible"
               : "px-3 overflow-y-auto overflow-x-hidden"
@@ -157,8 +158,8 @@ export function Sidebar({
         >
           {/* MAIN MENU */}
           <div>
-            {!collapsed && (
-              <p className="mb-1.5 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
+            {!collapsed && navLabel && (
+              <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/50 select-none">
                 {navLabel}
               </p>
             )}
@@ -168,12 +169,17 @@ export function Sidebar({
                   {collapsed ? (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <NavLink to={item.href} end={item.exact}>
+                        {/* Wrapper centers the 40×40 icon button within the 60px rail */}
+                        <NavLink
+                          to={item.href}
+                          end={item.exact}
+                          className="flex items-center justify-center"
+                        >
                           {({ isActive }) => (
                             <span className={iconLinkCls(isActive)}>
                               {isActive && (
                                 <span
-                                  className="absolute -left-2 h-5 w-0.5 rounded-full bg-primary"
+                                  className="absolute -left-1.5 h-5 w-0.5 rounded-full bg-primary"
                                   aria-hidden="true"
                                 />
                               )}
@@ -181,7 +187,7 @@ export function Sidebar({
                               {item.badge && (
                                 <span
                                   className={cn(
-                                    "absolute right-1 top-1 flex h-3.5 min-w-[0.875rem] items-center justify-center rounded-full px-1 text-[9px] font-bold",
+                                    "absolute -top-0.5 -right-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[9px] font-bold",
                                     item.badgeColor
                                   )}
                                 >
@@ -192,7 +198,8 @@ export function Sidebar({
                           )}
                         </NavLink>
                       </TooltipTrigger>
-                      <TooltipContent side="right">{item.label}</TooltipContent>
+                      {/* Tooltip — like Vorflux screenshot 3: label appears to the right */}
+                      <TooltipContent side="right" className="font-medium text-sm">{item.label}</TooltipContent>
                     </Tooltip>
                   ) : (
                     <NavLink to={item.href} end={item.exact} className={linkCls}>
@@ -220,8 +227,8 @@ export function Sidebar({
           {/* PAGES */}
           {(pageLinks.length > 0 || hasComponents || pageLinksAfter.length > 0) && (
             <div>
-              {!collapsed && (
-                <p className="mb-1.5 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
+              {!collapsed && pagesLabel && (
+                <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/50 select-none">
                   {pagesLabel}
                 </p>
               )}
