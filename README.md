@@ -212,32 +212,31 @@ These rules are enforced by the design system:
 
 ## Design token reference
 
-Full token table: [`docs/design-system-plan.md`](./docs/design-system-plan.md)
+Full token table: [`docs/DESIGN_SYSTEM.md`](./docs/DESIGN_SYSTEM.md)
 
-### Key light-mode values (confirmed from Figma)
+### Core public values
 
 | Token | Value | Use |
 |---|---|---|
-| `--background` | `#fafafa` | Page background |
-| `--foreground` | `#27272a` | Primary text |
-| `--card` | `#ffffff` | Card surface |
+| `--background` | `#0a0a0b` | Dark page background |
+| `--foreground` | `#f5f5f2` | Dark primary text |
+| `--card` | `#121214` | Dark card surface |
 | `--primary` | `#3d5bff` | Public Vorflux accent blue |
 | `--primary-foreground` | `#ffffff` | Text on primary |
-| `--muted-foreground` | `#52525b` | Captions, labels |
-| `--border` / `--input` | `#e4e4e7` | Borders |
+| `--muted-foreground` | `#8a8a8a` | Captions and labels |
+| `--border` | `#1c1c1e` | Borders |
+| `--input` | `#66666a` | Dark input borders |
 | `--destructive` | `#ef4444` | Errors |
-| `--radius` | `0.5rem (8px)` | Control corners |
+| `--radius` | `0.625rem (10px)` | Control corners |
 
 ---
 
-## Figma assumptions and limitations
+## Token source and limitations
 
-- **Visual source of truth:** public Vorflux website tokens documented in `docs/DESIGN_SYSTEM.md`
-- Token values were confirmed via `get_design_context` on Button, Input, and Card nodes.
-- `get_variable_defs` requires an active Figma desktop selection — unavailable in headless environments.
-- Dark mode values come from the standard shadcn/ui zinc-950 palette (Figma theming docs confirm this base).
-- The Figma kit uses **shadcn/ui 3.4+ with Tailwind CSS v4**.
-- Social auth icons (GitHub/Google) in `LoginForm` are inline SVG — Figma asset URLs are session-scoped.
+- The public Vorflux website at https://vorflux.com/ supplies the core dark values.
+- Vorflux does not publish its private application design-system tokens.
+- The light palette and supporting blue scale are accessible companion values created for this boilerplate.
+- Components consume semantic tokens through Tailwind CSS v4 utilities.
 
 ---
 

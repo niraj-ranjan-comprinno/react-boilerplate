@@ -36,7 +36,7 @@ export function Logo({ className, collapsed = false }: LogoProps) {
         R
       </div>
       <span className="text-[15px] font-bold text-foreground">
-        React<span className="text-primary">UI</span>
+        React<span className="text-primary-ink">UI</span>
       </span>
     </div>
   );

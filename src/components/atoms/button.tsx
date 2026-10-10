@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
  *  - Added sizes: `icon-sm` (h-7 w-7), `icon-xs` (h-6 w-6)
  *  - `link` uses `text-primary-ink` for accessible inline actions
  *
- * Figma spec (confirmed):
+ * Shared control specification:
  *  bg-primary and text-primary-foreground resolve through semantic tokens
  *  h-9 = 36px, px-4 = 16px, rounded-md = 10px (--radius 0.625rem)
  */

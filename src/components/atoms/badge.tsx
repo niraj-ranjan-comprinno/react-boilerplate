@@ -16,7 +16,7 @@ const badgeVariants = cva(
         outline:  "border border-border text-foreground bg-transparent",
         muted:    "bg-muted text-muted-foreground border border-transparent",
         // ── Brand ─────────────────────────────────────────────────────
-        primary:  "bg-primary/15 text-primary border border-transparent",
+        primary:  "bg-primary/15 text-primary-ink border border-transparent",
         // ── Status (semantic) ─────────────────────────────────────────
         success:  "bg-success-soft text-success border border-transparent",
         warning:  "bg-high-soft text-high border border-transparent",

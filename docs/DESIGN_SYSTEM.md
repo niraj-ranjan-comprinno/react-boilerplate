@@ -44,7 +44,7 @@ Tailwind utilities generated via `@theme inline {}`.
 | `--accent-foreground` | `#202f70` | `#f5f5f2` |
 | `--destructive` | `#ef4444` (red-500) | `#ef4444` |
 | `--border` | `#dededa` | `#1c1c1e` |
-| `--input` | `#d1d1cd` | `#2a2a2d` |
+| `--input` | `#8a8a8a` | `#66666a` |
 | `--ring` | `#3d5bff` | `#3d5bff` |
 
 ### Severity scale (critical → low + domain)
@@ -109,7 +109,7 @@ Base unit: 4px. Always use Tailwind scale — never arbitrary `px-[17px]`.
 
 ## 6. Border Radius
 
-Confirmed from Figma: `border-radius/rounded-md = 8px`, `border-radius/rounded-xl = 12px`.
+The starter control scale uses `border-radius/rounded-md = 8px` and `border-radius/rounded-xl = 12px`.
 `--radius: 0.625rem` (10px) = default for controls.
 
 | Use | Class | Value |
@@ -121,7 +121,7 @@ Confirmed from Figma: `border-radius/rounded-md = 8px`, `border-radius/rounded-x
 
 ## 7. Shadows
 
-Confirmed from Figma `shadow/sm` and `shadow/xs`:
+The starter shadow scale uses these values:
 
 | Name | Value | Usage |
 |---|---|---|
@@ -152,10 +152,10 @@ Loading state: spinner replaces label, button disabled
 
 ## 9. Inputs
 
-Height: `h-9` (36px) — confirmed from Figma `height/h-9`
-Border: `border-input` = `#e4e4e7` light / `#3f3f46` dark
+Height: `h-9` (36px)
+Border: `border-input` = `#8a8a8a` light / `#66666a` dark
 Border radius: `rounded-md` (8px)
-Shadow: `shadow-[0_1px_2px_rgba(0,0,0,0.05)]` (Figma shadow/xs)
+Shadow: `shadow-[0_1px_2px_rgba(0,0,0,0.05)]`
 Font: `text-sm` Plus Jakarta Sans Regular
 
 States:
@@ -171,7 +171,7 @@ Background: `bg-card`
 Border: `border-border` (1px)
 Radius: `rounded-xl` (12px)
 Shadow: `shadow/sm`
-Internal padding: `p-6` (24px) — confirmed Figma `spacing/6`
+Internal padding: `p-6` (24px)
 
 Sub-components:
 - `Card.Header` (compound) or `CardHeader` (named export) — `border-b border-border px-6 py-4`

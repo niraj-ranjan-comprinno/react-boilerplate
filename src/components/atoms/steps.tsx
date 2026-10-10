@@ -37,7 +37,7 @@ export function Steps({ steps, current, className, orientation = "horizontal" }:
                 <div className={cn(
                   "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors",
                   isCompleted ? "border-primary bg-primary text-primary-foreground" :
-                  isCurrent ? "border-primary text-primary bg-primary/10" :
+                  isCurrent ? "border-primary text-primary-ink bg-primary/10" :
                   "border-border text-muted-foreground"
                 )}>
                   {isCompleted ? <Check className="h-4 w-4" /> : <span>{i + 1}</span>}
@@ -66,7 +66,7 @@ export function Steps({ steps, current, className, orientation = "horizontal" }:
               <div className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors",
                 isCompleted ? "border-primary bg-primary text-primary-foreground" :
-                isCurrent ? "border-primary text-primary bg-primary/10" :
+                isCurrent ? "border-primary text-primary-ink bg-primary/10" :
                 "border-border text-muted-foreground"
               )}>
                 {isCompleted ? <Check className="h-4 w-4" /> : <span>{i + 1}</span>}

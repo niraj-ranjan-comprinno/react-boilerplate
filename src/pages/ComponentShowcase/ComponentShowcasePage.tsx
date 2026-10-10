@@ -289,7 +289,7 @@ export function ComponentShowcasePage() {
           </div>
         </Row>
         <Row label="Coloured">
-          <Icon icon={User}      size="md" className="text-primary" />
+          <Icon icon={User}      size="md" className="text-primary-ink" />
           <Icon icon={Settings}  size="md" className="text-muted-foreground" />
           <Icon icon={Bell}      size="md" className="text-warning" />
           <Icon icon={AlertCircle} size="md" className="text-destructive" />

@@ -56,7 +56,7 @@ const NAV_ITEMS = [
     label: "Projects",
     icon: <FolderOpen className="h-[18px] w-[18px]" aria-hidden="true" />,
     badge: "3",
-    badgeColor: "bg-primary/20 text-primary",
+    badgeColor: "bg-primary/20 text-primary-ink",
   },
   {
     href: routes.messages,
