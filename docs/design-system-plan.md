@@ -2,7 +2,8 @@
 
 **Project:** react-boilerplate  
 **Stack:** React 19 · TypeScript · Vite · Tailwind CSS v4 · shadcn/ui  
-**Visual source of truth:** [shadcn-Tevico Figma](https://www.figma.com/design/FKDbXlyFebKZXsO8qY3pzH/shadcn-Tevico?node-id=580-9181)  
+**Status:** Superseded by `docs/DESIGN_SYSTEM.md`.
+**Current visual source:** Public Vorflux web tokens from https://vorflux.com/.
 **Reference implementation:** `../nextjs-boilerplate`
 
 ---

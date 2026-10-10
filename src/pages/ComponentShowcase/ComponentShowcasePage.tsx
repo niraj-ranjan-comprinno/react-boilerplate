@@ -108,26 +108,26 @@ export function ComponentShowcasePage() {
       {/* ── 1. Design tokens — Colors ─────────────────────────────────── */}
       <Section id="colors" title="Design Tokens — Colors">
         <p className="text-sm text-muted-foreground">
-          All semantic tokens map Figma variables → CSS custom properties → Tailwind utilities.
+          Semantic tokens map public Vorflux values → CSS custom properties → Tailwind utilities.
           Source of truth: <code className="text-xs font-mono bg-muted px-1 py-0.5 rounded">src/styles/globals.css</code>.
         </p>
 
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Semantic (light)</p>
           <div className="flex flex-wrap gap-3">
-            <TokenSwatch name="background" hex="#fafafa" cls="bg-background" />
+            <TokenSwatch name="background" hex="#f7f7f5" cls="bg-background" />
             <TokenSwatch name="card" hex="#ffffff" cls="bg-card border" />
-            <TokenSwatch name="primary" hex="#4ccbbf" cls="bg-primary" />
-            <TokenSwatch name="secondary" hex="#f4f4f5" cls="bg-secondary" />
-            <TokenSwatch name="muted" hex="#f4f4f5" cls="bg-muted" />
-            <TokenSwatch name="accent" hex="#f4f4f5" cls="bg-accent" />
+            <TokenSwatch name="primary" hex="#3d5bff" cls="bg-primary" />
+            <TokenSwatch name="secondary" hex="#efefed" cls="bg-secondary" />
+            <TokenSwatch name="muted" hex="#efefed" cls="bg-muted" />
+            <TokenSwatch name="accent" hex="#e6e9ff" cls="bg-accent" />
             <TokenSwatch name="destructive" hex="#ef4444" cls="bg-destructive" />
-            <TokenSwatch name="border" hex="#e4e4e7" cls="bg-border" />
+            <TokenSwatch name="border" hex="#dededa" cls="bg-border" />
           </div>
         </div>
 
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Primary scale (teal)</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Primary scale (blue)</p>
           <div className="flex flex-wrap gap-3">
             {[50,100,200,300,400,500,600,700,800,900].map((w) => (
               <div key={w} className="flex flex-col gap-1 min-w-[52px]">
@@ -152,7 +152,7 @@ export function ComponentShowcasePage() {
       {/* ── 2. Typography ─────────────────────────────────────────────── */}
       <Section id="typography" title="Design Tokens — Typography">
         <p className="text-sm text-muted-foreground mb-4">
-          Font: <strong>Inter</strong>. All sizes from Figma text styles. Never use <code className="text-xs font-mono bg-muted px-1 rounded">text-[15px]</code> — use the scale.
+          Font: <strong>Plus Jakarta Sans</strong>. Use <strong>Geist Mono</strong> for code and data labels. Never use <code className="text-xs font-mono bg-muted px-1 rounded">text-[15px]</code> — use the scale.
         </p>
         <div className="space-y-2 border-l-2 border-border pl-4">
           {[

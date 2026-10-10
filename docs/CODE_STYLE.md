@@ -70,7 +70,7 @@ export default ({ onClick }) => <button onClick={onClick}>click</button>
 
 // ❌ Bad
 <p className="text-[#52525b]">subtitle</p>
-<div className="bg-[#4ccbbf]/15 text-[#4ccbbf]">active</div>
+<div className="bg-[#3d5bff]/15 text-[#3d5bff]">active</div>
 <div className="border-[#27272a]/20">divider</div>
 ```
 

@@ -1,14 +1,15 @@
 # Design System
 
 > Source of truth for visual language.
-> Token values confirmed via Figma `get_design_context` on Button, Input, Card nodes
-> (file: ifYt0HikaAuhwRTtARu5Fq — shadcn-Tevico copy).
+> Core dark tokens come from the public Vorflux website at https://vorflux.com/.
+> The public source does not expose the private Vorflux application design system.
+> Light-mode tokens and the blue scale are accessible companion values.
 > All tokens live in ONE file: `src/styles/globals.css`.
 
 ## 1. Design Direction
 
 Style: Technical / Minimal / Dark-first
-Mood: Focused, professional, data-dense — matches command-center-main
+Mood: Focused, professional, and data-dense
 Design Principles:
 - One source of truth for tokens (globals.css — never inline hex)
 - Semantic tokens only in components (`text-muted-foreground` not `text-[#52525b]`)
@@ -17,7 +18,7 @@ Design Principles:
 ## 2. Brand
 
 Brand Name: React Boilerplate
-Logo: `src/assets/Logo.tsx` — teal rounded square with "R" + wordmark "ReactUI"
+Logo: `src/assets/Logo.tsx` — blue rounded square with "R" + wordmark "ReactUI"
 Brand Voice: Direct, technical, developer-focused
 
 ## 3. Color Palette
@@ -29,22 +30,22 @@ Tailwind utilities generated via `@theme inline {}`.
 
 | Token | Light | Dark |
 |---|---|---|
-| `--background` | `#fafafa` (zinc-50) | `#09090b` (zinc-950) |
-| `--foreground` | `#27272a` (zinc-900) | `#fafafa` (zinc-50) |
-| `--card` | `#ffffff` | `#0f0f11` |
-| `--card-foreground` | `#27272a` | `#fafafa` |
-| `--primary` | `#4ccbbf` (teal) | `#4ccbbf` |
-| `--primary-foreground` | `#042f2e` | `#042f2e` |
-| `--primary-ink` | `#0e7b73` | `#4ccbbf` |
-| `--secondary` | `#f4f4f5` (zinc-100) | `#27272a` (zinc-800) |
-| `--muted` | `#f4f4f5` | `#27272a` |
-| `--muted-foreground` | `#52525b` (zinc-600) | `#a1a1aa` (zinc-400) |
-| `--accent` | `#f4f4f5` | `#27272a` |
-| `--accent-foreground` | `#18181b` | `#fafafa` |
+| `--background` | `#f7f7f5` | `#0a0a0b` |
+| `--foreground` | `#141416` | `#f5f5f2` |
+| `--card` | `#ffffff` | `#121214` |
+| `--card-foreground` | `#141416` | `#f5f5f2` |
+| `--primary` | `#3d5bff` | `#3d5bff` |
+| `--primary-foreground` | `#ffffff` | `#ffffff` |
+| `--primary-ink` | `#3048db` | `#6b7cff` |
+| `--secondary` | `#efefed` | `#1c1c1e` |
+| `--muted` | `#efefed` | `#1c1c1e` |
+| `--muted-foreground` | `#66666a` | `#8a8a8a` |
+| `--accent` | `#e6e9ff` | `#1c1c1e` |
+| `--accent-foreground` | `#202f70` | `#f5f5f2` |
 | `--destructive` | `#ef4444` (red-500) | `#ef4444` |
-| `--border` | `#e4e4e7` (zinc-200) | `#27272a` (zinc-800) |
-| `--input` | `#e4e4e7` | `#3f3f46` (zinc-700) |
-| `--ring` | `#4ccbbf` | `#4ccbbf` |
+| `--border` | `#dededa` | `#1c1c1e` |
+| `--input` | `#d1d1cd` | `#2a2a2d` |
+| `--ring` | `#3d5bff` | `#3d5bff` |
 
 ### Severity scale (critical → low + domain)
 
@@ -61,17 +62,17 @@ Tailwind utilities generated via `@theme inline {}`.
 | `--agent` | `#6d28d9` | `#a78bfa` |
 | `--takeover` | `#9333ea` | `#c084fc` |
 
-### Sidebar (always dark, theme-independent)
+### Sidebar
 
 | Token | Value |
 |---|---|
-| `--color-sidebar` | `#18181b` |
-| `--color-sidebar-hover` | `#27272a` |
+| `--color-sidebar` | `#f2f2f0` light / `#070708` dark |
+| `--color-sidebar-hover` | `#e9e9e6` light / `#121214` dark |
 
 ## 4. Typography
 
-Font Family: Inter (loaded from Google Fonts in `index.html`)
-All sizes confirmed from Figma text style variables.
+Sans Font Family: Plus Jakarta Sans (loaded from Google Fonts in `index.html`)
+Mono Font Family: Geist Mono (loaded from Google Fonts in `index.html`)
 
 | Scale | Size | Line-height | Weight |
 |---|---|---|---|
@@ -155,7 +156,7 @@ Height: `h-9` (36px) — confirmed from Figma `height/h-9`
 Border: `border-input` = `#e4e4e7` light / `#3f3f46` dark
 Border radius: `rounded-md` (8px)
 Shadow: `shadow-[0_1px_2px_rgba(0,0,0,0.05)]` (Figma shadow/xs)
-Font: `text-sm` Inter Regular
+Font: `text-sm` Plus Jakarta Sans Regular
 
 States:
 - Default: `border-input bg-background text-foreground`

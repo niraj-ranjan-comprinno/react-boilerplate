@@ -1,6 +1,5 @@
 /**
- * Dashboard page — pixel-matched to command-center-main's dark dashboard
- * (Figma: shadcn-Tevico, Theme Preview → Dark playground).
+ * Dashboard page using the boilerplate's dark-first semantic token system.
  *
  * Forms in this page:
  *  - "Upgrade subscription" & "Create account": demo/visual cards (CC faithful reproduction)
@@ -71,7 +70,7 @@ function calendarGrid(year: number, month: number): Array<number | null> {
 
 // ── Sparkline SVG ─────────────────────────────────────────────────────────
 
-function Sparkline({ data, color = "#4ccbbf" }: { data: number[]; color?: string }) {
+function Sparkline({ data, color = "var(--primary)" }: { data: number[]; color?: string }) {
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
@@ -86,12 +85,12 @@ function Sparkline({ data, color = "#4ccbbf" }: { data: number[]; color?: string
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-[60px]" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id={`grad-${color.replace("#","")}`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="sparkline-gradient" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="0.25" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d={area} fill={`url(#grad-${color.replace("#","")})`} />
+      <path d={area} fill="url(#sparkline-gradient)" />
       <path d={d} fill="none" stroke={color} strokeWidth="1.5" />
       {pts.map(([x, y], i) => (
         <circle key={i} cx={x} cy={y} r="2.5" fill={color} />
@@ -102,7 +101,7 @@ function Sparkline({ data, color = "#4ccbbf" }: { data: number[]; color?: string
 
 // ── BarChart SVG ─────────────────────────────────────────────────────────
 
-function MiniBarChart({ data, color = "#4ccbbf" }: { data: number[]; color?: string }) {
+function MiniBarChart({ data, color = "var(--primary)" }: { data: number[]; color?: string }) {
   const max = Math.max(...data);
   return (
     <div className="flex items-end gap-[3px] h-[60px] px-1" aria-hidden="true">

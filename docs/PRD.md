@@ -3,7 +3,7 @@
 ## 1. Product Overview
 
 Product Name: React Boilerplate
-One-Line Description: A production-ready React 19 + TypeScript + shadcn/ui starter with Atomic Design, full auth flow, and a CC-style dark dashboard.
+One-Line Description: A production-ready React 19 + TypeScript + shadcn/ui starter with Atomic Design, full auth flow, and a dark dashboard.
 Product Type: Developer Boilerplate / Internal Tool
 Primary Platform: Web
 
@@ -24,7 +24,7 @@ Primary Goal: Give developers a fully-wired, production-quality React app they c
 
 Secondary Goals:
 - Demonstrate Atomic Design applied to a real app
-- Match command-center-main design language exactly
+- Provide a Vorflux-inspired public web token theme
 - Provide a living component library / documentation page
 
 ## 4. Target Users
@@ -56,13 +56,13 @@ Pain Points:
 - As a developer, I want to clone the boilerplate and run `npm run dev` to see a working app in < 5 minutes.
 - As a developer, I want a complete auth flow so I don't have to build splash/login/MFA/voice screens from scratch.
 - As a developer, I want a component library page so I can see all available atoms/molecules/organisms.
-- As a developer, I want dark mode by default so the app matches the command-center design aesthetic.
+- As a developer, I want dark mode by default so the app starts with a focused technical design.
 - As an AI agent, I want AGENTS.md to tell me the architecture rules so I don't introduce inconsistencies.
 
 ## 6. Core Features
 
 ### Feature 1 - Auth Flow (Splash → IDP → MFA → Voice → Dashboard)
-Purpose: Complete 4-phase onboarding matching command-center-main.
+Purpose: Complete 4-phase onboarding for a realistic starter application.
 User Flow: `/` → SplashPhase → "Get started" → `/login` (IdpPhase) → `/login/mfa` (MfaPhase) → `/login/voice` (VoiceVerifyPhase) → `/dashboard`
 Inputs: email, password, 6-digit OTP, voice passphrase
 Outputs: authenticated session in localStorage, navigation to dashboard
@@ -78,7 +78,7 @@ Edge Cases:
 - Auth session exists on first load → skip flow, go to /dashboard
 
 ### Feature 2 - Dashboard (CC-style 3-column layout)
-Purpose: Operational dashboard matching command-center-main dark design.
+Purpose: Operational dashboard using the shared dark design tokens.
 User Flow: Authenticated user lands on /dashboard
 Acceptance Criteria:
 - 3-column grid: Revenue/forms/team left, Calendar/chat/forms middle, Charts/table/share right
@@ -107,7 +107,7 @@ The following are intentionally NOT part of this version:
 
 Must Have:
 - Auth flow (Splash → Login → MFA → Voice → Dashboard)
-- Design tokens from Figma (shadcn-Tevico)
+- Public Vorflux-inspired semantic design tokens
 - Atomic Design structure (atoms/molecules/organisms/templates/pages)
 - Dark mode default
 - Component showcase + docs page
@@ -140,7 +140,7 @@ Secondary Metrics:
 
 Technical: React 19 + Vite + Tailwind v4 — no SSR, no Next.js
 Business: Open source boilerplate — no proprietary dependencies
-Design: Must match command-center-main visual language exactly
+Design: Must use semantic tokens and preserve accessible contrast
 Timeline: Iterative — ship working boilerplate, improve over time
 
 ## 11. Assumptions

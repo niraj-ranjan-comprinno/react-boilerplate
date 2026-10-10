@@ -254,7 +254,7 @@ const SECTIONS: DocSection[] = [
     accent: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
     items: [
       { name: "Colors",      description: "Semantic palette: primary, muted, destructive, severity scale (critical/high/medium/low), agent, takeover.", variants: "30+ tokens", href: `${routes.components}#colors`, preview: P.colorTokens, tags: ["token", "color"] },
-      { name: "Typography",  description: "Inter font stack. 8-step scale from text-xs (12 px) to text-4xl (36 px) with paired line-heights.", variants: "8 steps", href: `${routes.components}#typography`, preview: P.typography, tags: ["token", "typography"] },
+      { name: "Typography",  description: "Plus Jakarta Sans with Geist Mono. 8-step scale from text-xs (12 px) to text-4xl (36 px).", variants: "8 steps", href: `${routes.components}#typography`, preview: P.typography, tags: ["token", "typography"] },
       { name: "Spacing",     description: "4 px base unit. Tailwind scale — /1 (4px) through /12 (48px). Never use arbitrary px values.", variants: "8 steps", href: `${routes.components}#spacing`, preview: P.spacing, tags: ["token", "spacing"] },
     ],
   },
@@ -433,7 +433,7 @@ const SECTIONS: DocSection[] = [
     label: "Molecules",
     description: "2–3 atoms composed with coordinated behaviour. No routing, no API calls, no higher-layer imports.",
     icon: <Grid3X3 className="h-4 w-4" />,
-    accent: "bg-teal-500/10 text-teal-600 dark:text-teal-400",
+    accent: "bg-primary/10 text-primary",
     items: [
       { name: "FormField",     description: "Input + Label + error/hint wired together. Spread react-hook-form register() output directly.", variants: "1", href: `${routes.components}#formfield`, preview: P.formField, tags: ["form", "input"] },
       { name: "SearchField",   description: "Input with leading Search icon and a trailing clear (×) button that appears when the field has a value.", variants: "1", href: `${routes.components}#searchfield`, preview: P.searchField, tags: ["search", "input"] },

@@ -10,7 +10,7 @@ Production-ready **React 19 + TypeScript + Vite** starter with a complete design
 | **Routing** | React Router v6 |
 | **Icons** | Lucide React |
 | **Tests** | Vitest + Testing Library |
-| **Design source** | [shadcn-Tevico Figma](https://www.figma.com/design/FKDbXlyFebKZXsO8qY3pzH/shadcn-Tevico?node-id=580-9181) |
+| **Design source** | Public Vorflux web tokens from https://vorflux.com/ |
 
 ---
 
@@ -198,7 +198,7 @@ No Tailwind recompilation needed — changes apply instantly via CSS variables.
 
 These rules are enforced by the design system:
 
-1. **Tokens only** — never use `bg-[#4ccbbf]`. Use `bg-primary`.
+1. **Tokens only** — never use `bg-[#3d5bff]`. Use `bg-primary`.
 2. **No duplicates** — extend an existing atom with a `variant`, don't create a new component.
 3. **One icon library** — Lucide only. Always use the `Icon` atom, not bare Lucide icons.
 4. **Spacing scale** — use Tailwind multiples of 4px (`p-4`, `gap-6`). No `px-[17px]`.
@@ -221,8 +221,8 @@ Full token table: [`docs/design-system-plan.md`](./docs/design-system-plan.md)
 | `--background` | `#fafafa` | Page background |
 | `--foreground` | `#27272a` | Primary text |
 | `--card` | `#ffffff` | Card surface |
-| `--primary` | `#4ccbbf` | Brand teal |
-| `--primary-foreground` | `#042f2e` | Text on primary |
+| `--primary` | `#3d5bff` | Public Vorflux accent blue |
+| `--primary-foreground` | `#ffffff` | Text on primary |
 | `--muted-foreground` | `#52525b` | Captions, labels |
 | `--border` / `--input` | `#e4e4e7` | Borders |
 | `--destructive` | `#ef4444` | Errors |
@@ -232,7 +232,7 @@ Full token table: [`docs/design-system-plan.md`](./docs/design-system-plan.md)
 
 ## Figma assumptions and limitations
 
-- **Visual source of truth:** [shadcn-Tevico copy](https://www.figma.com/design/ifYt0HikaAuhwRTtARu5Fq/shadcn-Tevico--Copy-)
+- **Visual source of truth:** public Vorflux website tokens documented in `docs/DESIGN_SYSTEM.md`
 - Token values were confirmed via `get_design_context` on Button, Input, and Card nodes.
 - `get_variable_defs` requires an active Figma desktop selection — unavailable in headless environments.
 - Dark mode values come from the standard shadcn/ui zinc-950 palette (Figma theming docs confirm this base).
