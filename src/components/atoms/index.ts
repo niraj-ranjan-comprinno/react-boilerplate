@@ -61,3 +61,7 @@ export { Textarea } from "./textarea";
 export type { TextareaProps } from "./textarea";
 export { Toaster, toast } from "./toast";
 export { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "./tooltip";
+
+// ── New atoms aligned with command-center-main ─────────────────────────────
+export { Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton } from "./select";
+export { ScrollArea, ScrollBar } from "./scroll-area";
