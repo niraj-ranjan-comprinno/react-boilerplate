@@ -36,6 +36,7 @@ import { SearchField } from "@/components/molecules/SearchField";
 import { PasswordField } from "@/components/molecules/PasswordField";
 import { SelectField } from "@/components/molecules/SelectField";
 import { Pagination } from "@/components/molecules/Pagination";
+import { useTheme } from "@/app/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 
 // ── Section scaffold ──────────────────────────────────────────────────────
@@ -91,11 +92,36 @@ const PAYMENTS: Payment[] = [
   { id: "4", status: "success", label: "Success",    email: "alma@example.com",      amount: "$475.22" },
 ];
 
+const SEMANTIC_TOKENS = {
+  light: [
+    { name: "background", hex: "#f7f7f5", cls: "bg-background" },
+    { name: "card", hex: "#ffffff", cls: "bg-card border" },
+    { name: "primary", hex: "#3d5bff", cls: "bg-primary" },
+    { name: "secondary", hex: "#efefed", cls: "bg-secondary" },
+    { name: "muted", hex: "#efefed", cls: "bg-muted" },
+    { name: "accent", hex: "#e6e9ff", cls: "bg-accent" },
+    { name: "destructive", hex: "#ef4444", cls: "bg-destructive" },
+    { name: "border", hex: "#dededa", cls: "bg-border" },
+  ],
+  dark: [
+    { name: "background", hex: "#0a0a0b", cls: "bg-background" },
+    { name: "card", hex: "#121214", cls: "bg-card border" },
+    { name: "primary", hex: "#3d5bff", cls: "bg-primary" },
+    { name: "secondary", hex: "#1c1c1e", cls: "bg-secondary" },
+    { name: "muted", hex: "#1c1c1e", cls: "bg-muted" },
+    { name: "accent", hex: "#1c1c1e", cls: "bg-accent" },
+    { name: "destructive", hex: "#ef4444", cls: "bg-destructive" },
+    { name: "border", hex: "#1c1c1e", cls: "bg-border" },
+  ],
+};
+
 // ── Page ─────────────────────────────────────────────────────────────────
 
 export function ComponentShowcasePage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(2);
+  const { isDark } = useTheme();
+  const themeName = isDark ? "dark" : "light";
 
   return (
     <div className="mx-auto max-w-4xl space-y-10 pb-20 px-8 pt-8">
@@ -113,16 +139,11 @@ export function ComponentShowcasePage() {
         </p>
 
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Semantic (light)</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Semantic ({themeName})</p>
           <div className="flex flex-wrap gap-3">
-            <TokenSwatch name="background" hex="#f7f7f5" cls="bg-background" />
-            <TokenSwatch name="card" hex="#ffffff" cls="bg-card border" />
-            <TokenSwatch name="primary" hex="#3d5bff" cls="bg-primary" />
-            <TokenSwatch name="secondary" hex="#efefed" cls="bg-secondary" />
-            <TokenSwatch name="muted" hex="#efefed" cls="bg-muted" />
-            <TokenSwatch name="accent" hex="#e6e9ff" cls="bg-accent" />
-            <TokenSwatch name="destructive" hex="#ef4444" cls="bg-destructive" />
-            <TokenSwatch name="border" hex="#dededa" cls="bg-border" />
+            {SEMANTIC_TOKENS[themeName].map((token) => (
+              <TokenSwatch key={token.name} {...token} />
+            ))}
           </div>
         </div>
 

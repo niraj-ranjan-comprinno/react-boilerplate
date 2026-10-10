@@ -118,7 +118,7 @@ function UserMenu() {
         </button>
       </PopoverTrigger>
 
-      <PopoverContent side="right" align="end" sideOffset={12} className="w-56 p-1">
+      <PopoverContent side="top" align="start" sideOffset={12} className="w-56 p-1">
         <div className="px-3 py-2">
           <p className="text-sm font-medium text-foreground">{user?.name}</p>
           <p className="text-xs text-muted-foreground">{user?.email}</p>
@@ -189,7 +189,7 @@ export function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground">
+    <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
 
       {/* ── Mobile backdrop ───────────────────────────────────────────── */}
       {!collapsed && (
@@ -198,6 +198,22 @@ export function DashboardLayout() {
           aria-hidden="true"
           onClick={() => setCollapsed(true)}
         />
+      )}
+
+      {collapsed && (
+        <button
+          type="button"
+          aria-label="Expand sidebar"
+          onClick={() => setCollapsed(false)}
+          className={cn(
+            "fixed left-3 top-4 z-40 flex h-9 w-9 items-center justify-center rounded-md lg:hidden",
+            "border border-border bg-sidebar text-muted-foreground shadow-sm",
+            "transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          )}
+        >
+          <PanelLeftOpen className="h-4 w-4" aria-hidden="true" />
+        </button>
       )}
 
       {/* ── Sidebar wrapper ───────────────────────────────────────────── */}
@@ -257,7 +273,8 @@ export function DashboardLayout() {
             // Float out of the sidebar's right edge
             "absolute -right-3.5 top-5 z-50",
             // Shape — rounded square like Vorflux, not circle
-            "flex h-7 w-7 items-center justify-center rounded-md",
+            collapsed ? "hidden h-7 w-7 lg:flex" : "flex h-7 w-7",
+            "items-center justify-center rounded-md",
             // Default: matches sidebar bg with a border
             "border border-border bg-sidebar text-muted-foreground shadow-sm",
             // Hover — Vorflux blue/primary fill (screenshot 2)
@@ -276,7 +293,7 @@ export function DashboardLayout() {
 
       {/* ── Main content ──────────────────────────────────────────────── */}
       <main
-        className="min-h-0 min-w-0 flex-1 overflow-y-auto"
+        className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto"
         id="main-content"
         aria-label="Page content"
       >
