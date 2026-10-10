@@ -202,31 +202,23 @@ export function DashboardLayout() {
 
       {/* ── Sidebar wrapper ───────────────────────────────────────────── */}
       {/*
-       * Position:
-       *   Mobile: fixed overlay (z-30), slides in from left
-       *   Desktop: static, shrinks/grows in place
-       *
-       * The "relative" container lets the floating toggle button
-       * (-right-3) escape the sidebar's overflow:hidden clip.
+       * Desktop: static in flex row, width animates between 60px ↔ 240px
+       * Mobile: fixed overlay that slides in via translateX
+       * "relative" allows the floating toggle button (-right-3.5) to escape
        */}
-      <div
+      <aside
         className={cn(
-          "relative flex h-full flex-col border-r border-border bg-sidebar transition-[width] duration-300 ease-in-out z-30",
-          // Mobile: fixed drawer; desktop: static in flex row
-          "fixed inset-y-0 left-0 lg:relative lg:z-auto lg:inset-auto",
-          collapsed
-            ? "w-[60px]"
-            : "w-[240px]",
-          // Mobile: hide when collapsed (slide out)
-          collapsed
-            ? "-translate-x-full lg:translate-x-0"
-            : "translate-x-0",
-          "transition-transform duration-300 lg:transition-none"
+          // Base
+          "relative flex-shrink-0 h-full z-30",
+          "border-r border-border bg-sidebar",
+          // Desktop: animate width
+          "hidden lg:flex lg:flex-col",
+          "transition-[width] duration-300 ease-in-out",
+          collapsed ? "lg:w-[60px]" : "lg:w-[240px]"
         )}
       >
-        {/* Sidebar organism */}
         <Sidebar
-          className="h-full"
+          className="h-full w-full"
           collapsed={collapsed}
           logo={<Logo />}
           logoCollapsed={<Logo collapsed />}
@@ -243,12 +235,7 @@ export function DashboardLayout() {
           userAction={<UserMenu />}
         />
 
-        {/* ── Toggle button — Vorflux [|>] / [<|] style ──────────────
-         *
-         * screenshot 2: hover = blue/primary fill + icon turns white
-         * Uses PanelLeftOpen / PanelLeftClose icons (exact Vorflux icon)
-         * Rounded square (rounded-md), not circle — matches Vorflux shape
-         */}
+        {/* ── Toggle button — Vorflux [|>] / [<|] icon ───────────────── */}
         <button
           type="button"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -272,7 +259,17 @@ export function DashboardLayout() {
             : <PanelLeftClose className="h-3.5 w-3.5" aria-hidden="true" />
           }
         </button>
-      </div>
+      </aside>
+
+      {/* Mobile: hamburger trigger (shown only below lg) */}
+      <button
+        type="button"
+        aria-label="Open navigation"
+        onClick={() => setCollapsed(false)}
+        className="fixed top-4 left-4 z-40 lg:hidden flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background shadow-sm"
+      >
+        <PanelLeftOpen className="h-4 w-4 text-muted-foreground" />
+      </button>
 
       {/* ── Main content ──────────────────────────────────────────────── */}
       <main
