@@ -1,6 +1,17 @@
-import { forwardRef } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+/**
+ * DashboardLayout — Vorflux-style collapsible sidebar.
+ *
+ * Behavior (matches screenshots):
+ *   - Default: collapsed (icon-only, 60 px)
+ *   - Click toggle button → expands to 240 px with labels
+ *   - Toggle button floats on the sidebar's right edge
+ *   - Hover state: blue accent on toggle button (like Vorflux [|>] icon)
+ *   - Mobile: expanded sidebar is an overlay with backdrop
+ */
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import {
+  LayoutDashboard,
   BarChart2,
   FolderOpen,
   MessageCircle,
@@ -8,86 +19,100 @@ import {
   Blocks,
   WandSparkles,
   BookOpen,
-  Sparkles,
-  LifeBuoy,
+  ChevronRight,
+  ChevronLeft,
   Moon,
   Sun,
   LogOut,
   Volume2,
 } from "lucide-react";
+import { Sidebar } from "@/components/organisms/Sidebar";
 import { AvatarRoot, AvatarFallback } from "@/components/atoms/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/atoms/popover";
 import { Separator } from "@/components/atoms/separator";
 import { Switch } from "@/components/atoms/switch";
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/atoms/tooltip";
+import { Logo } from "@/assets/Logo";
 import { useAuth } from "@/hooks/use-auth";
 import { useTheme } from "@/app/providers/ThemeProvider";
 import { routes } from "@/app/router/routes";
 import { cn } from "@/lib/utils";
 
-// ── Nav items ─────────────────────────────────────────────────────────────
+// ── Nav config ────────────────────────────────────────────────────────────
 
-type NavKey = string;
-
-interface NavDest {
-  key: NavKey;
-  label: string;
-  icon: React.ElementType;
-  href: string;
-  exact?: boolean;
-}
-
-const NAV: NavDest[] = [
-  { key: "mission",    label: "Action Space",        icon: Sparkles,       href: routes.dashboard,   exact: true },
-  { key: "analytics",  label: "Analytics",            icon: BarChart2,      href: routes.analytics },
-  { key: "projects",   label: "Projects",             icon: FolderOpen,     href: routes.projects },
-  { key: "messages",   label: "Messages",             icon: MessageCircle,  href: routes.messages },
-  { key: "forms",      label: "Form Examples",        icon: WandSparkles,   href: routes.forms },
-  { key: "components", label: "Component Showcase",   icon: Blocks,         href: routes.components },
-  { key: "docs",       label: "Documentation",        icon: BookOpen,       href: routes.docs },
-  { key: "settings",   label: "Settings",             icon: Settings,       href: routes.settings },
+const NAV_ITEMS = [
+  {
+    href: routes.dashboard,
+    label: "Dashboard",
+    icon: <LayoutDashboard className="h-[18px] w-[18px]" aria-hidden="true" />,
+    exact: true,
+  },
+  {
+    href: routes.analytics,
+    label: "Analytics",
+    icon: <BarChart2 className="h-[18px] w-[18px]" aria-hidden="true" />,
+  },
+  {
+    href: routes.projects,
+    label: "Projects",
+    icon: <FolderOpen className="h-[18px] w-[18px]" aria-hidden="true" />,
+    badge: "3",
+    badgeColor: "bg-primary/20 text-primary",
+  },
+  {
+    href: routes.messages,
+    label: "Messages",
+    icon: <MessageCircle className="h-[18px] w-[18px]" aria-hidden="true" />,
+  },
+  {
+    href: routes.forms,
+    label: "Form Examples",
+    icon: <WandSparkles className="h-[18px] w-[18px]" aria-hidden="true" />,
+  },
+  {
+    href: routes.components,
+    label: "Component Showcase",
+    icon: <Blocks className="h-[18px] w-[18px]" aria-hidden="true" />,
+  },
+  {
+    href: routes.docs,
+    label: "Documentation",
+    icon: <BookOpen className="h-[18px] w-[18px]" aria-hidden="true" />,
+  },
 ];
 
-// ── NavItem ───────────────────────────────────────────────────────────────
+const PAGE_LINKS_AFTER = [
+  {
+    href: routes.settings,
+    label: "Settings",
+    icon: <Settings className="h-[18px] w-[18px]" aria-hidden="true" />,
+  },
+];
 
-const NavItem = forwardRef<
-  HTMLButtonElement,
-  { dest: NavDest; onClick: () => void }
->(function NavItem({ dest, onClick }, ref) {
-  const Icon = dest.icon;
-  return (
-    <NavLink to={dest.href} end={dest.exact} onClick={onClick}>
-      {({ isActive }) => (
-        <button
-          ref={ref}
-          aria-label={dest.label}
-          aria-current={isActive ? "page" : undefined}
-          className={cn(
-            "relative flex h-9 w-9 items-center justify-center rounded-lg transition-colors",
-            isActive
-              ? "bg-accent text-foreground"
-              : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
-          )}
-        >
-          {/* Left-edge active bar — matches CC NavRail exactly */}
-          {isActive && (
-            <span
-              className="absolute -left-3 h-5 w-0.5 rounded-full bg-primary"
-              aria-hidden="true"
-            />
-          )}
-          <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
-        </button>
-      )}
-    </NavLink>
-  );
-});
+const COMPONENT_GROUPS = [
+  {
+    heading: "Core",
+    items: [
+      { id: "buttons",  label: "Buttons",  href: `${routes.components}#button`  },
+      { id: "inputs",   label: "Inputs",   href: `${routes.components}#input`   },
+      { id: "badges",   label: "Badges",   href: `${routes.components}#badge`   },
+    ],
+  },
+  {
+    heading: "Display",
+    items: [
+      { id: "cards",    label: "Cards",    href: `${routes.components}#card`    },
+      { id: "avatars",  label: "Avatars",  href: `${routes.components}#avatar`  },
+      { id: "skeleton", label: "Skeleton", href: `${routes.components}#skeleton`},
+    ],
+  },
+];
 
-// ── UserMenu ──────────────────────────────────────────────────────────────
+// ── UserMenu (theme toggle + logout, shown in sidebar user strip) ──────────
 
 function UserMenu() {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   const initials = user?.name
     ?.split(" ")
@@ -100,11 +125,11 @@ function UserMenu() {
     <Popover>
       <PopoverTrigger asChild>
         <button
-          aria-label="User menu"
-          className="rounded-full ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-label="User settings"
+          className="flex h-7 w-7 items-center justify-center rounded-full ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <AvatarRoot className="h-8 w-8 cursor-pointer">
-            <AvatarFallback className="bg-secondary text-xs font-medium text-foreground">
+          <AvatarRoot className="h-7 w-7 cursor-pointer">
+            <AvatarFallback className="bg-secondary text-[10px] font-medium text-foreground">
               {initials}
             </AvatarFallback>
           </AvatarRoot>
@@ -112,26 +137,23 @@ function UserMenu() {
       </PopoverTrigger>
 
       <PopoverContent side="right" align="end" sideOffset={12} className="w-56 p-1">
-        {/* User info */}
         <div className="px-3 py-2">
           <p className="text-sm font-medium text-foreground">{user?.name}</p>
           <p className="text-xs text-muted-foreground">{user?.email}</p>
         </div>
-
         <Separator className="my-1" />
 
         {/* Theme toggle */}
         <div className="flex items-center gap-3 rounded-md px-3 py-2">
-          {isDark ? (
-            <Moon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-          ) : (
-            <Sun className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-          )}
+          {isDark
+            ? <Moon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+            : <Sun  className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+          }
           <span className="flex-1 text-sm text-foreground">Dark theme</span>
           <Switch checked={isDark} onCheckedChange={toggleTheme} />
         </div>
 
-        {/* Samantha (placeholder) */}
+        {/* Samantha placeholder */}
         <div className="flex items-center gap-3 rounded-md px-3 py-2">
           <Volume2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <span className="flex-1 text-sm text-foreground">Samantha speaks</span>
@@ -140,9 +162,8 @@ function UserMenu() {
 
         <Separator className="my-1" />
 
-        {/* Logout */}
         <button
-          onClick={logout}
+          onClick={() => { logout(); navigate(routes.home); }}
           className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/10"
         >
           <LogOut className="h-4 w-4" aria-hidden="true" />
@@ -153,117 +174,132 @@ function UserMenu() {
   );
 }
 
-// ── NavRail ───────────────────────────────────────────────────────────────
+// ── getPageTitle ──────────────────────────────────────────────────────────
 
-/**
- * 56 px icon-only nav rail — matches command-center-main NavRail exactly.
- *
- * Structure:
- *   Logo (teal square, top)
- *   Nav items (flex-1, with active bar indicator)
- *   UserMenu avatar (bottom)
- */
-function NavRail() {
-  const navigate = useNavigate();
-
-  return (
-    <TooltipProvider delayDuration={200}>
-      <nav
-        className="flex h-full w-14 shrink-0 flex-col items-center border-r border-border bg-card/60 py-3"
-        aria-label="Main navigation"
-      >
-        {/* Logo */}
-        <button
-          onClick={() => navigate(routes.dashboard)}
-          aria-label="Go to dashboard"
-          className="mb-4 flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-        >
-          <LifeBuoy className="h-4 w-4" aria-hidden="true" />
-        </button>
-
-        {/* Nav items */}
-        <div className="flex flex-1 flex-col items-center gap-1">
-          {NAV.map((dest) => (
-            <Tooltip key={dest.key}>
-              <TooltipTrigger asChild>
-                <NavItem dest={dest} onClick={() => {}} />
-              </TooltipTrigger>
-              <TooltipContent side="right">{dest.label}</TooltipContent>
-            </Tooltip>
-          ))}
-        </div>
-
-        {/* User avatar */}
-        <UserMenu />
-      </nav>
-    </TooltipProvider>
-  );
-}
-
-// ── PageHeader (CC style) ─────────────────────────────────────────────────
-
-/**
- * CC-style inline page header — `px-8 pt-8`, `text-lg font-semibold`.
- * No separate top bar — lives inside the <main> scroll area.
- */
-export function CCPageHeader({
-  title,
-  actions,
-}: {
-  title: string;
-  actions?: React.ReactNode;
-}) {
-  return (
-    <header className="shrink-0 px-8 pt-8">
-      <div className="flex min-h-8 items-center justify-between gap-4">
-        <h1 className="text-lg font-semibold text-foreground">{title}</h1>
-        {actions}
-      </div>
-    </header>
-  );
-}
-
-// ── Page title map (kept for external use / future PageHeader) ────────────
-
-/** Returns a human-readable title for a given pathname. Export for use in page PageHeaders. */
+/** Exported so pages can use it when they need a consistent title. */
 export function getPageTitle(pathname: string): string {
-  if (pathname === routes.dashboard) return "Operational Dashboard";
-  if (pathname.startsWith(routes.analytics)) return "Analytics";
-  if (pathname.startsWith(routes.projects)) return "Projects";
-  if (pathname.startsWith(routes.messages)) return "Messages";
-  if (pathname.startsWith(routes.settings)) return "Settings";
-  if (pathname.startsWith(routes.components)) return "Components";
-  if (pathname.startsWith(routes.forms)) return "Form Examples";
-  if (pathname.startsWith(routes.docs)) return "Documentation";
+  if (pathname === routes.dashboard)              return "Operational Dashboard";
+  if (pathname.startsWith(routes.analytics))      return "Analytics";
+  if (pathname.startsWith(routes.projects))       return "Projects";
+  if (pathname.startsWith(routes.messages))       return "Messages";
+  if (pathname.startsWith(routes.settings))       return "Settings";
+  if (pathname.startsWith(routes.components))     return "Components";
+  if (pathname.startsWith(routes.forms))          return "Form Examples";
+  if (pathname.startsWith(routes.docs))           return "Documentation";
   return "Dashboard";
 }
 
 // ── Template ──────────────────────────────────────────────────────────────
 
 /**
- * DashboardLayout — matches command-center-main App.tsx layout exactly.
+ * Vorflux-style collapsible sidebar layout.
  *
- * ```
- * flex h-screen w-screen overflow-hidden bg-background
- *   NavRail (w-14 shrink-0 — always visible, icon-only)
- *   div (flex-1 flex flex-col)
- *     PageHeader (only on non-dashboard routes)
- *     main (flex-1 overflow-y-auto)
- *       Outlet
- * ```
+ * Sidebar states:
+ *   collapsed = true  → 60 px icon-only  (default)
+ *   collapsed = false → 240 px with labels
  *
- * Notable differences from the old layout:
- *  - NO h-14 AppHeader bar — UserMenu + theme toggle live in NavRail
- *  - Sidebar is always narrow (56 px), never expands
- *  - PageHeader is the first element inside the scrollable main area
+ * The floating toggle button sticks out 12 px from the sidebar's right edge.
+ * On hover it shows an accent ring — matching the Vorflux [|>] interaction.
  */
 export function DashboardLayout() {
+  const { user } = useAuth();
+  // Default to collapsed so the first experience matches Vorflux screenshot 2
+  const [collapsed, setCollapsed] = useState(true);
+
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground">
-      {/* ── NavRail (56 px, always visible) ─────────────────────────── */}
-      <NavRail />
 
-      {/* ── Scrollable content column ────────────────────────────────── */}
+      {/* ── Mobile backdrop ───────────────────────────────────────────── */}
+      {!collapsed && (
+        <div
+          className="fixed inset-0 z-20 bg-black/30 lg:hidden"
+          aria-hidden="true"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
+
+      {/* ── Sidebar wrapper ───────────────────────────────────────────── */}
+      {/*
+       * Position:
+       *   Mobile: fixed overlay (z-30), slides in from left
+       *   Desktop: static, shrinks/grows in place
+       *
+       * The "relative" container lets the floating toggle button
+       * (-right-3) escape the sidebar's overflow:hidden clip.
+       */}
+      <div
+        className={cn(
+          // Mobile: fixed drawer
+          "fixed inset-y-0 left-0 z-30",
+          // Desktop: static in flex row
+          "lg:relative lg:z-auto lg:inset-auto",
+          // Width transition — matches Vorflux smooth slide
+          "transition-[width] duration-300 ease-in-out",
+          collapsed
+            ? "w-[60px]"
+            : "w-[240px]",
+          // Mobile: hide when collapsed (slide out)
+          collapsed
+            ? "-translate-x-full lg:translate-x-0"
+            : "translate-x-0",
+          "transition-transform duration-300 lg:transition-none"
+        )}
+      >
+        {/* Sidebar organism */}
+        <Sidebar
+          className="h-full"
+          collapsed={collapsed}
+          logo={<Logo />}
+          logoCollapsed={<Logo collapsed />}
+          homeHref={routes.dashboard}
+          navItems={NAV_ITEMS}
+          pageLinksAfter={PAGE_LINKS_AFTER}
+          componentGroups={COMPONENT_GROUPS}
+          componentsIcon={<Blocks className="h-[18px] w-[18px]" aria-hidden="true" />}
+          componentsHref={routes.components}
+          user={
+            user
+              ? { name: user.name, role: user.role, avatarUrl: user.avatarUrl }
+              : undefined
+          }
+          userAction={<UserMenu />}
+        />
+
+        {/* ── Floating toggle button ──────────────────────────────────
+         *
+         * Sticks 12 px out of the sidebar's right edge.
+         * Matches Vorflux screenshots:
+         *   - Small circular/pill button
+         *   - On hover: blue/accent ring + bg
+         *   - Shows expand/collapse arrow
+         */}
+        <button
+          type="button"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={() => setCollapsed((v) => !v)}
+          className={cn(
+            // Positioning — float out of sidebar's right edge
+            "absolute -right-3 top-6 z-50",
+            // Shape
+            "flex h-6 w-6 items-center justify-center rounded-full",
+            // Colours — matches Vorflux: white bg, border, hover accent
+            "border border-border bg-background text-muted-foreground shadow-sm",
+            // Hover state — the blue highlight from screenshot 3
+            "transition-all duration-150",
+            "hover:border-primary hover:bg-primary hover:text-primary-foreground",
+            "hover:shadow-[0_0_0_3px_hsl(174_55%_55%/0.25)]",
+            // Focus
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          )}
+        >
+          {collapsed
+            ? <ChevronRight className="h-3 w-3" aria-hidden="true" />
+            : <ChevronLeft  className="h-3 w-3" aria-hidden="true" />
+          }
+        </button>
+      </div>
+
+      {/* ── Main content ──────────────────────────────────────────────── */}
       <main
         className="min-h-0 min-w-0 flex-1 overflow-y-auto"
         id="main-content"
