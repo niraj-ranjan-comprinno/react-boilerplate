@@ -100,13 +100,13 @@ export function Sidebar({
     setOpenSubGroups((prev) => ({ ...prev, [heading]: !prev[heading] }));
   }
 
-  // Expanded link — semantic tokens only
+  // Expanded link — semantic tokens, theme-aware hover
   const linkCls = ({ isActive }: { isActive: boolean }) =>
     cn(
       "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] transition-colors w-full",
       isActive
         ? "bg-primary/15 text-primary font-medium"
-        : "text-muted-foreground hover:bg-white/[0.05] hover:text-foreground"
+        : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
     );
 
   // Icon-only link — left-edge active bar (CC NavRail pattern)
@@ -114,8 +114,8 @@ export function Sidebar({
     cn(
       "relative flex items-center justify-center rounded-lg p-2 transition-colors w-full",
       active
-        ? "bg-accent text-foreground"
-        : "text-muted-foreground hover:bg-white/[0.05] hover:text-foreground"
+        ? "bg-primary/15 text-primary"
+        : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
     );
 
   // Section label — muted-foreground instead of hardcoded slate
@@ -137,7 +137,7 @@ export function Sidebar({
         {/* Logo */}
         <div
           className={cn(
-            "flex h-14 shrink-0 items-center border-b border-border/20",
+            "flex h-14 shrink-0 items-center border-b border-border",
             collapsed ? "justify-center px-0" : "px-4"
           )}
         >
@@ -215,7 +215,7 @@ export function Sidebar({
             </ul>
           </div>
 
-          {collapsed && <div className="border-t border-border/20" />}
+          {collapsed && <div className="border-t border-border" />}
 
           {/* PAGES */}
           {(pageLinks.length > 0 || hasComponents || pageLinksAfter.length > 0) && (
@@ -282,7 +282,7 @@ export function Sidebar({
                             "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] transition-colors",
                             window.location.pathname.startsWith(componentsHref)
                               ? "bg-primary/15 text-primary font-medium"
-                              : "text-muted-foreground hover:bg-white/[0.05] hover:text-foreground"
+                              : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
                           )}
                         >
                           {componentsIcon}
@@ -296,7 +296,7 @@ export function Sidebar({
                         </button>
 
                         {componentsOpen && (
-                          <div className="mt-1 ml-3.5 border-l border-border/20 pl-3 space-y-1">
+                          <div className="mt-1 ml-3.5 border-l border-border pl-3 space-y-1">
                             {componentGroups.map((group) => {
                               const isGroupOpen =
                                 openSubGroups[group.heading] ?? false;
@@ -320,7 +320,7 @@ export function Sidebar({
                                   </button>
 
                                   {isGroupOpen && (
-                                    <ul className="mt-0.5 ml-2 space-y-0.5 border-l border-border/10 pl-2">
+                                    <ul className="mt-0.5 ml-2 space-y-0.5 border-l border-border pl-2">
                                       {group.items.map((sub) => (
                                         <li key={sub.id}>
                                           <NavLink
@@ -330,7 +330,7 @@ export function Sidebar({
                                                 "flex items-center gap-2 rounded-md px-3 py-1.5 text-[13px] transition-colors",
                                                 isActive
                                                   ? "bg-primary/10 font-medium text-primary"
-                                                  : "text-muted-foreground hover:bg-white/[0.03] hover:text-foreground"
+                                                  : "text-muted-foreground hover:bg-sidebar-hover/60 hover:text-foreground"
                                               )
                                             }
                                           >
@@ -394,7 +394,7 @@ export function Sidebar({
         {user && (
           <div
             className={cn(
-              "shrink-0 border-t border-border/20 py-3",
+              "shrink-0 border-t border-border py-3",
               collapsed ? "px-2" : "px-4"
             )}
           >

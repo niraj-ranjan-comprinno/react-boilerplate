@@ -282,9 +282,9 @@ export function DashboardLayout() {
             "absolute -right-3 top-6 z-50",
             // Shape
             "flex h-6 w-6 items-center justify-center rounded-full",
-            // Colours — matches Vorflux: white bg, border, hover accent
+            // Colours — border visible in both light and dark
             "border border-border bg-background text-muted-foreground shadow-sm",
-            // Hover state — the blue highlight from screenshot 3
+            // Hover state — teal highlight (like Vorflux blue [|>] on hover)
             "transition-all duration-150",
             "hover:border-primary hover:bg-primary hover:text-primary-foreground",
             "hover:shadow-[0_0_0_3px_hsl(174_55%_55%/0.25)]",

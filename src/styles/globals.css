@@ -76,11 +76,11 @@
   --color-primary-800: #175250;
   --color-primary-900: #103c3a;
 
-  /* ── Sidebar tokens (always-dark surface) ───────────────────────────── */
-  --color-sidebar:        #18181b;   /* zinc-950 — matches dark card in dark mode */
-  --color-sidebar-hover:  #27272a;
-  --color-sidebar-active: #3f3f46;
-  --color-sidebar-border: #27272a;
+  /* ── Sidebar tokens (theme-aware — light=white, dark=zinc-950) ─────── */
+  --color-sidebar:        var(--sidebar);
+  --color-sidebar-hover:  var(--sidebar-hover);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar-border: var(--sidebar-border);
 
   /* ── Status colors ──────────────────────────────────────────────────── */
   --color-success:       #22c55e;   /* green-500 */
@@ -147,6 +147,12 @@
   --ring:                   #4ccbbf;
   --radius:                 0.625rem;  /* 10px — aligned with command-center-main */
 
+  /* ── Sidebar (light mode = white card, like Vorflux) ───────────────── */
+  --sidebar:                #ffffff;
+  --sidebar-hover:          #f4f4f5;   /* zinc-100 */
+  --sidebar-active:         #e4e4e7;   /* zinc-200 */
+  --sidebar-border:         #e4e4e7;
+
   /* ── Severity scale (aligned with command-center-main) ─────────────── */
   --critical:               #dc2626;   /* red-600    */
   --critical-foreground:    #ffffff;
@@ -199,6 +205,12 @@
   --border:                 #27272a;
   --input:                  #3f3f46;   /* zinc-700 — slightly lifted for dark inputs */
   --ring:                   #4ccbbf;
+
+  /* ── Sidebar (dark mode = CC/command-center always-dark look) ────── */
+  --sidebar:                #18181b;   /* zinc-950 */
+  --sidebar-hover:          #27272a;   /* zinc-800 */
+  --sidebar-active:         #3f3f46;   /* zinc-700 */
+  --sidebar-border:         #27272a;
 
   /* ── Severity scale dark ───────────────────────────────────────────── */
   --critical:               #f87171;   /* red-400    */
