@@ -93,7 +93,7 @@ Always use semantic tokens. Never use arbitrary values when a token exists.
 |---|---|---|
 | Text | `text-foreground` | `text-[#27272a]` |
 | Muted text | `text-muted-foreground` | `text-[#52525b]` |
-| Primary | `bg-primary text-primary-foreground` | `bg-[#4ccbbf] text-[#042f2e]` |
+| Primary | `bg-primary text-primary-foreground` | `bg-[#3d5bff] text-white` |
 | Border | `border-border` | `border-[#e4e4e7]` |
 | Surface | `bg-card` | `bg-[#ffffff]` |
 | Sidebar | `bg-sidebar` | `bg-[#18181b]` |

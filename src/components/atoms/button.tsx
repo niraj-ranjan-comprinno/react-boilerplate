@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils";
  * Button variants — aligned with command-center-main:
  *  - Added: `card`, `critical-soft`, `success` (alias), `asChild` (Radix Slot)
  *  - Added sizes: `icon-sm` (h-7 w-7), `icon-xs` (h-6 w-6)
- *  - `link` now uses `text-primary-ink` (darker teal) matching CC convention
+ *  - `link` uses `text-primary-ink` for accessible inline actions
  *
- * Figma spec (confirmed):
- *  bg-primary = #4ccbbf, text-primary-foreground = #042f2e
+ * Shared control specification:
+ *  bg-primary and text-primary-foreground resolve through semantic tokens
  *  h-9 = 36px, px-4 = 16px, rounded-md = 10px (--radius 0.625rem)
  */
 const buttonVariants = cva(
@@ -25,7 +25,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        /** Primary teal fill */
+        /** Primary accent fill */
         primary:
           "bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary",
         /** Outlined secondary */
@@ -40,7 +40,7 @@ const buttonVariants = cva(
         /** Border only */
         outline:
           "border border-border bg-transparent hover:bg-accent hover:text-accent-foreground",
-        /** Underline link — uses primary-ink (darker teal) */
+        /** Underline link — uses the accessible primary-ink token */
         link: "text-primary-ink underline-offset-4 hover:underline p-0 h-auto font-normal",
         /** Card-surface button — matches command-center card variant */
         card: "border border-border/80 bg-card/80 text-foreground/70 hover:border-border hover:bg-accent hover:text-foreground",

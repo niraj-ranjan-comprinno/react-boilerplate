@@ -1,6 +1,5 @@
 /**
- * Dashboard page — pixel-matched to command-center-main's dark dashboard
- * (Figma: shadcn-Tevico, Theme Preview → Dark playground).
+ * Dashboard page using the boilerplate's dark-first semantic token system.
  *
  * Forms in this page:
  *  - "Upgrade subscription" & "Create account": demo/visual cards (CC faithful reproduction)
@@ -8,7 +7,7 @@
  *    See src/pages/FormExamples/ for full useZodForm validation examples.
  *  - "Report an issue": interactive form, uses useZodForm + Zod schema.
  */
-import { useState } from "react";
+import { useId, useState } from "react";
 import { z } from "zod";
 import { useZodForm } from "@/hooks/use-zod-form";
 import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
@@ -71,7 +70,9 @@ function calendarGrid(year: number, month: number): Array<number | null> {
 
 // ── Sparkline SVG ─────────────────────────────────────────────────────────
 
-function Sparkline({ data, color = "#4ccbbf" }: { data: number[]; color?: string }) {
+function Sparkline({ data }: { data: number[] }) {
+  const gradientId = useId().replace(/:/g, "");
+  const color = "var(--primary)";
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
@@ -86,12 +87,12 @@ function Sparkline({ data, color = "#4ccbbf" }: { data: number[]; color?: string
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-[60px]" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id={`grad-${color.replace("#","")}`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="0.25" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d={area} fill={`url(#grad-${color.replace("#","")})`} />
+      <path d={area} fill={`url(#${gradientId})`} />
       <path d={d} fill="none" stroke={color} strokeWidth="1.5" />
       {pts.map(([x, y], i) => (
         <circle key={i} cx={x} cy={y} r="2.5" fill={color} />
@@ -102,7 +103,7 @@ function Sparkline({ data, color = "#4ccbbf" }: { data: number[]; color?: string
 
 // ── BarChart SVG ─────────────────────────────────────────────────────────
 
-function MiniBarChart({ data, color = "#4ccbbf" }: { data: number[]; color?: string }) {
+function MiniBarChart({ data }: { data: number[] }) {
   const max = Math.max(...data);
   return (
     <div className="flex items-end gap-[3px] h-[60px] px-1" aria-hidden="true">
@@ -110,7 +111,7 @@ function MiniBarChart({ data, color = "#4ccbbf" }: { data: number[]; color?: str
         <div
           key={i}
           className="flex-1 rounded-sm transition-all"
-          style={{ height: `${(v / max) * 100}%`, backgroundColor: color, opacity: 0.7 + (v / max) * 0.3 }}
+          style={{ height: `${(v / max) * 100}%`, backgroundColor: "var(--primary)", opacity: 0.7 + (v / max) * 0.3 }}
         />
       ))}
     </div>
@@ -380,7 +381,7 @@ export function DashboardPage() {
                     className={cn("h-7 w-7 rounded-full text-xs flex items-center justify-center mx-auto transition-colors",
                       !day && "invisible",
                       isToday && "bg-primary text-primary-foreground font-semibold",
-                      isSelected && !isToday && "bg-primary/20 text-primary font-medium",
+                      isSelected && !isToday && "bg-primary/20 text-primary-ink font-medium",
                       !isToday && !isSelected && day && "text-foreground hover:bg-accent"
                     )}
                     disabled={!day}

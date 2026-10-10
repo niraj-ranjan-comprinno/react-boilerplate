@@ -105,7 +105,7 @@ export function Sidebar({
     cn(
       "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors w-full",
       isActive
-        ? "bg-primary/10 text-primary"
+        ? "bg-primary/10 text-primary-ink"
         : "text-foreground/70 hover:bg-sidebar-hover hover:text-foreground"
     );
 
@@ -115,7 +115,7 @@ export function Sidebar({
       // 40×40 touch target, centered icon, rounded square bg
       "relative flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-150",
       active
-        ? "bg-primary/10 text-primary"
+        ? "bg-primary/10 text-primary-ink"
         : "text-foreground/60 hover:bg-sidebar-hover hover:text-foreground"
     );
 
@@ -288,7 +288,7 @@ export function Sidebar({
                           className={cn(
                             "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] transition-colors",
                             window.location.pathname.startsWith(componentsHref)
-                              ? "bg-primary/15 text-primary font-medium"
+                              ? "bg-primary/15 text-primary-ink font-medium"
                               : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
                           )}
                         >
@@ -336,7 +336,7 @@ export function Sidebar({
                                               cn(
                                                 "flex items-center gap-2 rounded-md px-3 py-1.5 text-[13px] transition-colors",
                                                 isActive
-                                                  ? "bg-primary/10 font-medium text-primary"
+                                                  ? "bg-primary/10 font-medium text-primary-ink"
                                                   : "text-muted-foreground hover:bg-sidebar-hover/60 hover:text-foreground"
                                               )
                                             }

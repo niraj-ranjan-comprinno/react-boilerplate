@@ -8,7 +8,7 @@ interface LogoProps {
 /**
  * Application logo.
  * Uses semantic design tokens — no hardcoded hex.
- * Renders a teal wordmark in expanded mode and a monogram in collapsed mode.
+ * Renders an accent wordmark in expanded mode and a monogram in collapsed mode.
  */
 export function Logo({ className, collapsed = false }: LogoProps) {
   if (collapsed) {
@@ -36,7 +36,7 @@ export function Logo({ className, collapsed = false }: LogoProps) {
         R
       </div>
       <span className="text-[15px] font-bold text-foreground">
-        React<span className="text-primary">UI</span>
+        React<span className="text-primary-ink">UI</span>
       </span>
     </div>
   );

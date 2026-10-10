@@ -227,7 +227,7 @@ const P = {
     <div className="flex items-center gap-2">
       {["Splash","Login","MFA","Voice"].map((s,i) => (
         <div key={s} className="flex items-center gap-1">
-          <div className="h-5 px-1.5 rounded bg-primary/20 text-primary text-[9px] font-medium flex items-center">{s}</div>
+          <div className="h-5 px-1.5 rounded bg-primary/20 text-primary-ink text-[9px] font-medium flex items-center">{s}</div>
           {i < 3 && <span className="text-[9px] text-muted-foreground">→</span>}
         </div>
       ))}
@@ -254,7 +254,7 @@ const SECTIONS: DocSection[] = [
     accent: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
     items: [
       { name: "Colors",      description: "Semantic palette: primary, muted, destructive, severity scale (critical/high/medium/low), agent, takeover.", variants: "30+ tokens", href: `${routes.components}#colors`, preview: P.colorTokens, tags: ["token", "color"] },
-      { name: "Typography",  description: "Inter font stack. 8-step scale from text-xs (12 px) to text-4xl (36 px) with paired line-heights.", variants: "8 steps", href: `${routes.components}#typography`, preview: P.typography, tags: ["token", "typography"] },
+      { name: "Typography",  description: "Plus Jakarta Sans with Geist Mono. 8-step scale from text-xs (12 px) to text-4xl (36 px).", variants: "8 steps", href: `${routes.components}#typography`, preview: P.typography, tags: ["token", "typography"] },
       { name: "Spacing",     description: "4 px base unit. Tailwind scale — /1 (4px) through /12 (48px). Never use arbitrary px values.", variants: "8 steps", href: `${routes.components}#spacing`, preview: P.spacing, tags: ["token", "spacing"] },
     ],
   },
@@ -275,7 +275,7 @@ const SECTIONS: DocSection[] = [
       { name: "Label",        description: "Radix Label — clicking it focuses the associated control via htmlFor.", variants: "1", href: `${routes.components}#label`, preview: <p className="text-sm font-medium text-foreground">Email address</p>, tags: ["label", "form"] },
       { name: "Card",         description: "Composable shell with compound API (Card.Header/Body/Footer) and shadcn/ui named exports (CardTitle/CardContent).", variants: "compound + named", href: `${routes.components}#card`, preview: P.loginForm, tags: ["card", "container"] },
       { name: "Icon",         description: "Lucide wrapper enforcing consistent size tokens (xs/sm/md/lg/xl) and strokeWidth=2 across the product.", variants: "5 sizes", href: `${routes.components}#icon`, preview: (
-        <div className="flex items-end gap-2 text-primary">
+        <div className="flex items-end gap-2 text-primary-ink">
           <Search className="h-3 w-3"/><Search className="h-4 w-4"/><Search className="h-5 w-5"/><Search className="h-6 w-6"/>
         </div>
       ), tags: ["icon"] },
@@ -397,7 +397,7 @@ const SECTIONS: DocSection[] = [
         <div className="flex items-center gap-1">
           {["Account","Profile","Done"].map((l,i) => (
             <div key={l} className="flex items-center gap-1">
-              <div className={cn("h-6 w-6 rounded-full border-2 flex items-center justify-center text-[9px] font-semibold", i<1 ? "border-primary bg-primary text-primary-foreground" : i===1 ? "border-primary text-primary" : "border-border text-muted-foreground")}>
+              <div className={cn("h-6 w-6 rounded-full border-2 flex items-center justify-center text-[9px] font-semibold", i<1 ? "border-primary bg-primary text-primary-foreground" : i===1 ? "border-primary text-primary-ink" : "border-border text-muted-foreground")}>
                 {i<1 ? "✓" : i+1}
               </div>
               {i<2 && <div className={cn("w-5 h-0.5", i<1 ? "bg-primary" : "bg-border")} />}
@@ -433,7 +433,7 @@ const SECTIONS: DocSection[] = [
     label: "Molecules",
     description: "2–3 atoms composed with coordinated behaviour. No routing, no API calls, no higher-layer imports.",
     icon: <Grid3X3 className="h-4 w-4" />,
-    accent: "bg-teal-500/10 text-teal-600 dark:text-teal-400",
+    accent: "bg-primary/10 text-primary-ink",
     items: [
       { name: "FormField",     description: "Input + Label + error/hint wired together. Spread react-hook-form register() output directly.", variants: "1", href: `${routes.components}#formfield`, preview: P.formField, tags: ["form", "input"] },
       { name: "SearchField",   description: "Input with leading Search icon and a trailing clear (×) button that appears when the field has a value.", variants: "1", href: `${routes.components}#searchfield`, preview: P.searchField, tags: ["search", "input"] },
@@ -497,7 +497,7 @@ const SECTIONS: DocSection[] = [
       { name: "Form Examples",     description: "Profile form, password change, disabled/error/search/loading states — all wired to React Hook Form + Zod.", variants: "6 sections", href: routes.forms, preview: P.formField, tags: ["form", "validation"] },
       { name: "Not Found",         description: "404 page with a large primary 404 display and 'Go to Dashboard' CTA.", variants: "1", href: "/definitely-404", preview: (
         <div className="text-center space-y-1">
-          <p className="text-2xl font-extrabold text-primary/30 select-none">404</p>
+          <p className="text-2xl font-extrabold text-primary-ink/30 select-none">404</p>
           <p className="text-[10px] font-medium text-foreground">Page not found</p>
         </div>
       ), tags: ["error", "404"] },
@@ -549,7 +549,7 @@ function ComponentCard({ item }: { item: ComponentDoc }) {
       {/* Info */}
       <div className="flex flex-col gap-1 p-4">
         <div className="flex items-start justify-between gap-2">
-          <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+          <p className="text-sm font-semibold text-foreground group-hover:text-primary-ink transition-colors">
             {item.name}
           </p>
           {item.variants && (
@@ -683,7 +683,7 @@ export function DocsPage() {
               key={label}
               className="flex flex-col items-center gap-0.5 rounded-xl border border-border bg-card p-3 text-center"
             >
-              <span className="text-2xl font-extrabold text-primary">{value}</span>
+              <span className="text-2xl font-extrabold text-primary-ink">{value}</span>
               <span className="text-[11px] text-muted-foreground">{label}</span>
             </div>
           ))}

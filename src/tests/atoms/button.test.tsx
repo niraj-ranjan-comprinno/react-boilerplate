@@ -50,4 +50,14 @@ describe("Button", () => {
     // The danger variant applies bg-destructive
     expect(btn.className).toMatch(/destructive/);
   });
+
+  it("uses semantic primary tokens by default", () => {
+    render(<Button>Continue</Button>);
+    expect(screen.getByRole("button")).toHaveClass("bg-primary", "text-primary-foreground");
+  });
+
+  it("uses the accessible semantic ink token for links", () => {
+    render(<Button variant="link">Learn more</Button>);
+    expect(screen.getByRole("button")).toHaveClass("text-primary-ink");
+  });
 });

@@ -374,7 +374,7 @@ export function Sphere({
         {/* Base: deep dark void */}
         <div className="absolute inset-0 rounded-full bg-[#03060f]" />
 
-        {/* Ring 1 — clockwise conic gradient, primary teal */}
+        {/* Ring 1 — clockwise conic gradient, primary accent */}
         <div
           className="absolute inset-0 rounded-full animate-sphere-rotate"
           style={{

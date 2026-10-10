@@ -12,9 +12,9 @@
  * (bg-background, text-foreground, …) resolve at runtime via CSS variables,
  * enabling instant theme switching without recompilation.
  *
- * Values are sourced from the shadcn-Tevico Figma design system
- * (https://www.figma.com/design/ifYt0HikaAuhwRTtARu5Fq/)
- * confirmed via get_design_context on component instances (Button, Input, Card).
+ * Core dark values are sourced from the public Vorflux website.
+ * The light palette and supporting scales are accessible companion values.
+ * Source: https://vorflux.com/ (retrieved 2026-10-10).
  */
 @theme inline {
   /* ── Semantic tokens (shadcn/ui compatible) ─────────────────────────── */
@@ -38,7 +38,7 @@
   --color-input:                 var(--input);
   --color-ring:                  var(--ring);
 
-  /* ── Primary-ink (darker teal for links — aligned with command-center) ── */
+  /* ── Primary ink for links ─────────────────────────────────────────── */
   --color-primary-ink: var(--primary-ink);
 
   /* ── Severity scale (aligned with command-center-main) ─────────────── */
@@ -64,17 +64,17 @@
   --color-info-foreground:        var(--info-foreground);
   --color-info-soft:              var(--info-soft);
 
-  /* ── Figma: Teal primary scale ──────────────────────────────────────── */
-  --color-primary-50:  #edfaf9;
-  --color-primary-100: #d0f4f1;
-  --color-primary-200: #a3e9e4;
-  --color-primary-300: #6dd9d2;
-  --color-primary-400: #4ccbbf;   /* brand primary */
-  --color-primary-500: #31b0a5;
-  --color-primary-600: #268d84;
-  --color-primary-700: #1e6e68;
-  --color-primary-800: #175250;
-  --color-primary-900: #103c3a;
+  /* ── Blue scale built around the verified public accent ───────────── */
+  --color-primary-50:  #eef1ff;
+  --color-primary-100: #dce2ff;
+  --color-primary-200: #bac6ff;
+  --color-primary-300: #91a2ff;
+  --color-primary-400: #6b7cff;
+  --color-primary-500: #3d5bff;
+  --color-primary-600: #3048db;
+  --color-primary-700: #263ab1;
+  --color-primary-800: #22338c;
+  --color-primary-900: #202f70;
 
   /* ── Sidebar tokens (theme-aware — light=white, dark=zinc-950) ─────── */
   --color-sidebar:        var(--sidebar);
@@ -93,8 +93,8 @@
   --color-info-light:    #dbeafe;
 
   /* ── Font ───────────────────────────────────────────────────────────── */
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+  --font-sans: "Plus Jakarta Sans", "General Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* ── Radius (from Figma: rounded-md=8px, rounded-xl=12px) ──────────── */
   --radius-sm:   0.25rem;   /* 4px  */
@@ -120,38 +120,36 @@
 
 /* ─────────────────────────────────────────────────────────────────────────
  * Light mode
- * Source: get_design_context fallback values on Button, Input, Card nodes
- * (file: ifYt0HikaAuhwRTtARu5Fq, Theme Preview → Light playground)
- * Aligned with command-center-main: severity scale + primary-ink added.
+ * The public Vorflux palette is dark-only. These light values are accessible
+ * companions that preserve the same neutral surfaces and blue accent.
  * ───────────────────────────────────────────────────────────────────────── */
 :root {
-  --background:             #fafafa;   /* zinc-50  */
-  --foreground:             #27272a;   /* zinc-900 */
+  --background:             #f7f7f5;
+  --foreground:             #141416;
   --card:                   #ffffff;
-  --card-foreground:        #27272a;
+  --card-foreground:        #141416;
   --popover:                #ffffff;
-  --popover-foreground:     #27272a;
-  --primary:                #4ccbbf;   /* teal — from Figma copy */
-  --primary-foreground:     #042f2e;   /* dark teal — confirmed from Button node */
-  --primary-ink:            #0e7b73;   /* darker teal for links — aligned with CC */
-  --secondary:              #f4f4f5;   /* zinc-100 */
-  --secondary-foreground:   #18181b;   /* zinc-950 */
-  --muted:                  #f4f4f5;   /* zinc-100 */
-  --muted-foreground:       #52525b;   /* zinc-600 */
-  --accent:                 #f4f4f5;   /* zinc-100 */
-  --accent-foreground:      #18181b;
+  --popover-foreground:     #141416;
+  --primary:                #3d5bff;
+  --primary-foreground:     #ffffff;
+  --primary-ink:            #3048db;
+  --secondary:              #efefed;
+  --secondary-foreground:   #141416;
+  --muted:                  #efefed;
+  --muted-foreground:       #66666a;
+  --accent:                 #e6e9ff;
+  --accent-foreground:      #202f70;
   --destructive:            #ef4444;   /* red-500  */
   --destructive-foreground: #fafafa;
-  --border:                 #e4e4e7;   /* zinc-200 */
-  --input:                  #e4e4e7;
-  --ring:                   #4ccbbf;
-  --radius:                 0.625rem;  /* 10px — aligned with command-center-main */
+  --border:                 #dededa;
+  --input:                  #8a8a8a;
+  --ring:                   #3d5bff;
+  --radius:                 0.625rem;
 
-  /* ── Sidebar (light mode = very slight gray like Vorflux, dark = zinc-950) ── */
-  --sidebar:                #f8fafc;   /* slate-50 — Vorflux's off-white sidebar */
-  --sidebar-hover:          #f1f5f9;   /* slate-100 */
-  --sidebar-active:         #e2e8f0;   /* slate-200 */
-  --sidebar-border:         #e2e8f0;   /* slate-200 */
+  --sidebar:                #f2f2f0;
+  --sidebar-hover:          #e9e9e6;
+  --sidebar-active:         #e0e3ff;
+  --sidebar-border:         #dededa;
 
   /* ── Severity scale (aligned with command-center-main) ─────────────── */
   --critical:               #dc2626;   /* red-600    */
@@ -182,35 +180,34 @@
 
 /* ─────────────────────────────────────────────────────────────────────────
  * Dark mode
- * Standard shadcn/ui zinc-950 dark palette + teal primary + severity scale.
+ * Verified public Vorflux core palette with semantic shadcn/ui mappings.
  * ───────────────────────────────────────────────────────────────────────── */
 .dark {
-  --background:             #09090b;   /* zinc-950 */
-  --foreground:             #fafafa;   /* zinc-50  */
-  --card:                   #0f0f11;   /* slightly lifted */
-  --card-foreground:        #fafafa;
-  --popover:                #0f0f11;
-  --popover-foreground:     #fafafa;
-  --primary:                #4ccbbf;
-  --primary-foreground:     #042f2e;
-  --primary-ink:            #4ccbbf;   /* same teal in dark — already bright */
-  --secondary:              #27272a;
-  --secondary-foreground:   #fafafa;
-  --muted:                  #27272a;
-  --muted-foreground:       #a1a1aa;   /* zinc-400 */
-  --accent:                 #27272a;
-  --accent-foreground:      #fafafa;
+  --background:             #0a0a0b;
+  --foreground:             #f5f5f2;
+  --card:                   #121214;
+  --card-foreground:        #f5f5f2;
+  --popover:                #121214;
+  --popover-foreground:     #f5f5f2;
+  --primary:                #3d5bff;
+  --primary-foreground:     #ffffff;
+  --primary-ink:            #6b7cff;
+  --secondary:              #1c1c1e;
+  --secondary-foreground:   #e8e8e4;
+  --muted:                  #1c1c1e;
+  --muted-foreground:       #8a8a8a;
+  --accent:                 #1c1c1e;
+  --accent-foreground:      #f5f5f2;
   --destructive:            #ef4444;
-  --destructive-foreground: #fafafa;
-  --border:                 #27272a;
-  --input:                  #3f3f46;   /* zinc-700 — slightly lifted for dark inputs */
-  --ring:                   #4ccbbf;
+  --destructive-foreground: #f5f5f2;
+  --border:                 #1c1c1e;
+  --input:                  #66666a;
+  --ring:                   #3d5bff;
 
-  /* ── Sidebar (dark mode = CC/command-center always-dark look) ────── */
-  --sidebar:                #18181b;   /* zinc-950 */
-  --sidebar-hover:          #27272a;   /* zinc-800 */
-  --sidebar-active:         #3f3f46;   /* zinc-700 */
-  --sidebar-border:         #27272a;
+  --sidebar:                #070708;
+  --sidebar-hover:          #121214;
+  --sidebar-active:         #1c1c1e;
+  --sidebar-border:         #1c1c1e;
 
   /* ── Severity scale dark ───────────────────────────────────────────── */
   --critical:               #f87171;   /* red-400    */
@@ -268,7 +265,7 @@
   border-radius: 9999px;
 }
 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: #4ccbbf;
+  background-color: var(--primary);
 }
 
 /* ── Sphere animations ──────────────────────────────────────────────────── */
